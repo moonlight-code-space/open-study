@@ -7,7 +7,7 @@ description: Use Open Study when a message is primarily a public Bilibili link o
 
 Use the Open Study cloud MCP as the user's persistent learning library. The website and MCP share the same signed-in account and data; do not create a second local database or ask the user to install a separate backend.
 
-Open Study currently accepts public Bilibili video links and BVIDs. Do not imply that another social platform is supported until `system_status` or a later product contract says so.
+Open Study currently accepts public Bilibili video links and BVIDs that are available without signing in. Never ask for a Bilibili Cookie or try to bypass login, membership, payment, regional, private, removed, or other access restrictions. Do not imply that another social platform is supported until `system_status` or a later product contract says so.
 
 ## Trust boundary
 
