@@ -40,8 +40,8 @@ are loaded.
 - Existing Open Study library search and evidence reading
 
 The plugin does not import browser cookies, proxy settings or local files. The
-remote service remains responsible for authentication, tenant isolation,
-rate limits and billing.
+remote service handles sign-in, keeps each account's data separate, limits
+request volume and records usage charges.
 
 ## Availability
 
