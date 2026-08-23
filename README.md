@@ -42,6 +42,13 @@ The plugin does not import browser cookies, proxy settings or local files. The
 remote service remains responsible for authentication, tenant isolation,
 rate limits and billing.
 
+## Availability
+
+V0.5 is a restricted preview for existing Open Study accounts. Public
+registration and online payment are not open yet. Before using the service,
+review the [privacy notice](https://study.faroapi.cn/#privacy) and
+[terms of use](https://study.faroapi.cn/#terms).
+
 ## Version and support
 
 The current plugin version is `0.5.0`. The remote service is
