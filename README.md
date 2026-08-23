@@ -17,9 +17,10 @@ codex plugin marketplace add moonlight-code-space/open-study-codex-plugin \
 codex plugin add open-study@open-study --json
 ```
 
-Then start a new Codex task. The first Open Study tool use asks you to sign in
-to your Open Study account through OAuth. After authorization, send a public
-Bilibili URL or BV number and ask Codex to collect, summarize or study it.
+Then start a new Codex task. Depending on the Codex client version, installation
+or the first Open Study tool use asks you to sign in to your Open Study account
+through OAuth. After authorization, send a public Bilibili URL or BV number and
+ask Codex to collect, summarize or study it.
 
 ## Update
 
