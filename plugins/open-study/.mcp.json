@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "open-study": {
+      "type": "http",
+      "url": "https://study.faroapi.cn/mcp"
+    }
+  }
+}

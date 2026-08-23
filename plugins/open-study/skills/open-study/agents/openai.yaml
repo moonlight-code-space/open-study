@@ -1,0 +1,16 @@
+interface:
+  display_name: "Open Study"
+  short_description: "直接整理 B 站链接，用字幕、评论和时间点生成学习资料"
+  brand_color: "#117941"
+  default_prompt: "使用 $open-study 采集这个 B 站链接，并直接整理成带时间点的学习要点。"
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "open-study"
+      description: "Open Study 云端视频学习资料库"
+      transport: "streamable_http"
+      url: "https://study.faroapi.cn/mcp"
+
+policy:
+  allow_implicit_invocation: true

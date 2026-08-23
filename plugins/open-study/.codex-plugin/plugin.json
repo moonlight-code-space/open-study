@@ -1,0 +1,25 @@
+{
+  "name": "open-study",
+  "version": "0.5.0",
+  "description": "Collect requested Bilibili links and turn them into traceable learning material through Open Study.",
+  "author": {
+    "name": "Open Study"
+  },
+  "keywords": ["bilibili", "learning", "research", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Open Study",
+    "shortDescription": "直接采集并整理 B 站链接，生成带字幕时间点和来源的学习资料。",
+    "longDescription": "连接 Open Study 云端资料库。当消息主要就是 B 站链接/BVID，或用户明确要求处理它时，AI 会直接采集并等待网站返回最终结果，再读取字幕、评论和已有分析完成回答。网页与 MCP 使用同一账号；价格、钱包和调用记录留在网站查看，不打断正常学习流程。",
+    "developerName": "Open Study",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "把这个 B 站链接收入资料库并直接整理学习要点。",
+      "搜索我学过的这个主题，并用字幕证据帮我复习。",
+      "把这段视频整理成可执行的学习计划。"
+    ],
+    "brandColor": "#117941"
+  }
+}
