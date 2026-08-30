@@ -1,24 +1,41 @@
 {
   "name": "open-study",
-  "version": "0.5.0",
-  "description": "Collect requested Bilibili links and turn them into traceable learning material through Open Study.",
+  "version": "0.8.0",
+  "description": "Turn public video and posts from nine platforms into timestamped, checkable evidence that a person or another agent can work from.",
   "author": {
     "name": "Open Study"
   },
-  "keywords": ["bilibili", "learning", "research", "mcp"],
+  "keywords": [
+    "bilibili",
+    "douyin",
+    "youtube",
+    "tiktok",
+    "weibo",
+    "learning",
+    "research",
+    "mcp",
+    "agent",
+    "mindmap",
+    "notes",
+    "search"
+  ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Open Study",
-    "shortDescription": "直接采集并整理 B 站链接，生成带字幕时间点和来源的学习资料。",
-    "longDescription": "连接 Open Study 云端资料库。当消息主要就是 B 站链接/BVID，或用户明确要求处理它时，AI 会直接采集并等待网站返回最终结果，再读取字幕、评论和已有分析完成回答。网页与 MCP 使用同一账号；价格、钱包和调用记录留在网站查看，不打断正常学习流程。",
+    "shortDescription": "把九个平台的视频和帖子整理成可检索的学习资料，供人和 agent 直接取用。",
+    "longDescription": "连接 Open Study 云端资料库。消息里主要是 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube、Instagram 的公开链接（或 BVID、分享口令）时，AI 会直接采集并等到网站返回结果，再用字幕、评论和已有分析回答。已经存下来的内容可以按标题找，也可以按「谁说过这句话」找——搜遍全库的字幕、评论和你自己的笔记。整理出来的结论可以写回这份资料的笔记，也可以按主题建文件夹归到一起，下次打开网站就在那儿。要动手做一件事之前，它会自己想好该搜什么，问你要不要先找找别人是怎么做的——搜到了就把流程和用到的工具讲给你，再开始干。给另一个 agent 或工作流用时，一次调用就能拿到整条内容：来源、分析、字幕、评论，外加一张按分析结构生成的思维导图。网页与 MCP 使用同一账号；价格、钱包和调用记录留在网站查看，不打断正常学习流程。",
     "developerName": "Open Study",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
     "defaultPrompt": [
-      "把这个 B 站链接收入资料库并直接整理学习要点。",
-      "搜索我学过的这个主题，并用字幕证据帮我复习。",
-      "把这段视频整理成可执行的学习计划。"
+      "把这个链接收入资料库并直接整理学习要点。",
+      "我记得有人讲过<某句话>，帮我在资料库里找出来，告诉我是哪条、第几分钟。",
+      "我要做<任务>，先帮我找找这活一般是什么流程、要用什么工具。",
+      "把这条内容整理成要点，然后存进它的笔记里。"
     ],
     "brandColor": "#117941"
   }

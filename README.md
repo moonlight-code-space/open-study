@@ -1,15 +1,20 @@
 # Open Study for Codex
 
-Open Study turns a public Bilibili link into saved learning material, then lets
-Codex answer from the video's metadata, transcript and selected comments.
+Open Study 是一个「视频证据库」：把 B 站、抖音、X、TikTok、小红书、快手、微博、
+YouTube、Instagram 的公开视频和帖子整理成可检索的学习资料，给人看，更给 AI
+agent 直接调用。装上这个插件后，你的 agent 就能：
 
-This repository contains only the Codex marketplace, Skill and remote MCP
-declaration. It does not contain the Open Study server, database, provider
-credentials or user data.
+- 贴一条公开链接，自动采集字幕、评论、封面和元数据进你的私有资料库；
+- 按标题找资料，也按「谁说过这句话」搜遍全库的字幕、评论和你的笔记；
+- 把结论写回资料的笔记、按主题建文件夹，下次打开网站就在那儿；
+- 给另一个 agent 或工作流时，一次调用拿到整条内容外加思维导图。
 
-## Install
+本仓库只包含 Codex marketplace 声明、Skill 和远程 MCP 地址，不包含 Open Study
+服务端、数据库、任何凭据或用户数据。
 
-The stable channel is the `plugin-stable` branch:
+## 安装
+
+稳定通道是 `plugin-stable` 分支：
 
 ```bash
 codex plugin marketplace add moonlight-code-space/open-study-codex-plugin \
@@ -17,43 +22,20 @@ codex plugin marketplace add moonlight-code-space/open-study-codex-plugin \
 codex plugin add open-study@open-study --json
 ```
 
-Then start a new Codex task. Depending on the Codex client version, installation
-or the first Open Study tool use asks you to sign in to your Open Study account
-through OAuth. After authorization, send a public Bilibili URL or BV number and
-ask Codex to collect, summarize or study it.
+装好后新开一个 Codex 会话。首次调用会走网站的正常登录授权，插件不经手密码，
+也永远不要把访问令牌粘贴进对话。
 
-## Update
+## 更新
 
 ```bash
 codex plugin marketplace upgrade open-study --json
 codex plugin add open-study@open-study --json
 ```
 
-Start a new Codex task after updating so the refreshed Skill and MCP definition
-are loaded.
+更新完让 agent 调一次 `open-study:system_status`，核对
+`compatibility.latest_plugin_version` 与本地版本一致即可。
 
-## Current scope
+## 版本
 
-- Public Bilibili video URLs and BV numbers
-- Metadata, subtitles when available, selected comments and archived cover
-- One user-authorized initial capture followed by polling for the final result
-- Existing Open Study library search and evidence reading
-
-The plugin does not import browser cookies, proxy settings or local files. The
-remote service handles sign-in, keeps each account's data separate, limits
-request volume and records usage charges.
-
-## Availability
-
-V0.5 is a restricted preview for existing Open Study accounts. Public
-registration and online payment are not open yet. Before using the service,
-review the [privacy notice](https://study.faroapi.cn/#privacy) and
-[terms of use](https://study.faroapi.cn/#terms).
-
-## Version and support
-
-The current plugin version is `0.5.0`. The remote service is
-`https://study.faroapi.cn/mcp`.
-
-This repository is a distribution channel, not an open-source release of the
-Open Study backend. See [LICENSE](LICENSE).
+当前：v0.8.0。变更记录见 git 标签；网站控制台的「快速开始」页提供离线 zip
+下载与校验值。
