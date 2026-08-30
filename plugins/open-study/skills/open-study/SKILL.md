@@ -5,7 +5,7 @@ description: Open Study is the user's video-evidence library, reachable over MCP
 
 # Open Study
 
-Open Study turns public video into checkable evidence — transcripts carrying timestamps, audience comments, and stored analyses — and serves that evidence over MCP. The website is one view of the library; this MCP is the other, and it is the one built for an agent to work through. What you hand back should be grounded material a caller can act on and verify, not a summary written from memory.
+Open Study turns public video into checkable evidence — full transcripts, audience comments, and stored analyses — and serves that evidence over MCP. The website is one view of the library; this MCP is the other, and it is the one built for an agent to work through. What you hand back should be grounded material a caller can act on and verify, not a summary written from memory.
 
 The website and the MCP share the same signed-in account and the same data. Do not create a second local database or ask the user to install a separate backend.
 
@@ -61,11 +61,11 @@ A video may legitimately come back with an empty transcript. Say so plainly and 
 
 The user asks what their saved material says, wants to be taught from it, or is looking for a video they remember.
 
-1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: every transcript line, every saved comment, and the user's own notes, returning each hit with its material and, for a spoken line, its `start_ms`. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
+1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: every transcript line, every saved comment, and the user's own notes, returning each hit with the material it belongs to. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
 2. Confirm source identity and availability with `open-study:video_get`.
-3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. Use `open-study:comments_list` when audience reaction genuinely helps — platforms serve only the first page, roughly the top 20 by likes, so present it as the saved first page, never as every comment the video has.
+3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — platforms serve only the first page, roughly the top 20 by likes, so present it as the saved first page, never as every comment the video has.
 4. Use `open-study:analysis_get` when a stored analysis already answers the request. Call `open-study:video_analyze` only when the user asks for the service's configured analysis provider; a sampled analysis supports only the range it discloses.
-5. Answer with the evidence, keeping useful timestamps and source identifiers, and keep four things visibly separate: metadata facts, claims made in the transcript, opinions from comments, and your own synthesis.
+5. Answer with the evidence, keeping source identifiers, and keep four things visibly separate: metadata facts, claims made in the transcript, opinions from comments, and your own synthesis.
 
 Prefer synthesising from retrieved evidence over regenerating an analysis.
 
@@ -75,7 +75,7 @@ The user wants two or more saved videos compared, connected, or built into one s
 
 1. Locate each with `open-study:library_search` and confirm with `open-study:video_get` which sources each one actually has.
 2. Pull only the ranges you need from each with `open-study:transcript_read`. Do not dump whole transcripts into an answer.
-3. Build the comparison around the user's question — agreements, contradictions, gaps — with a timestamped citation for every load-bearing claim, and every claim attributed to the video it came from.
+3. Build the comparison around the user's question — agreements, contradictions, gaps — with every load-bearing claim attributed to the video it came from.
 
 ## Workflow 4 · Leave the conclusion where the user will find it
 
@@ -97,7 +97,7 @@ The user is about to take on a task — build a thing, use a tool, produce a pie
 1. **Name the search yourself.** From the task, derive the terms someone would have used in a video that demonstrates it: the tool, the artefact, the step that is actually hard. Do not ask the user what to search for — deriving it is the work.
 2. **Offer, do not assume.** Say what you would look for and let the user decide. "Before I start, I can look for material on how this is usually done — I'd search for X. Worth it?" A user who says no gets on with the task immediately.
 3. **Search and read for procedure, not trivia.** With the results, use `open-study:transcript_read` and `open-study:analysis_get` to pull out the shape of the work: the order of the steps, the tools and versions used, what the demonstrator warns about, where they backtrack. That is what makes the next hour go differently.
-4. **Say what you learned before you start.** A short account of the process and the tools, with timestamps, so the user can check any of it. Then do the work with that in hand.
+4. **Say what you learned before you start.** A short account of the process and the tools, so the user can check any of it. Then do the work with that in hand.
 5. **Say when you found nothing.** One line, then proceed from general knowledge and mark it as such. Never dress up an empty search as research.
 
 **A limit worth stating plainly.** `open-study:library_search` covers what this account has already saved and nothing else. It cannot search the platforms themselves. So on a topic the user has never collected, this returns nothing, and the useful move is to search the open web yourself for a candidate link and offer to capture it — capture spends their credits, so ask first. Never present a web result as if it came from the library.
@@ -123,10 +123,8 @@ the range is visible:
   and limits?" / "What are people complaining about most under this one?"
 - Research — "What was his exact wording on that model?" / "Three talks quote
   that ratio — do they agree?"
-- Studying for something — "Which parts of this lecture are examinable, with
-  timestamps?" / "Where does the comment section say people get stuck?"
-- Learning a language — "Pull out the colloquial phrases, each one clickable
-  back to the audio."
+- Studying for something — "Which parts of this lecture are examinable?" / "Where does the comment section say people get stuck?"
+- Learning a language — "Pull out the colloquial phrases from this talk."
 
 Two things worth saying once, because neither is guessable: the library is
 searchable by **what was said**, not just by title, and anything concluded here
@@ -134,14 +132,14 @@ can be written back into the material's notes so it is still there next week.
 
 ## Handing the material to another agent
 
-When the caller is a workflow or another agent rather than a person reading prose, call `open-study:study_brief` once per video instead of five paginated reads. It returns identity, the stored analysis, the transcript up to `transcript_limit` (400 by default, 1000 at most), comments, and a Mermaid mind map, and names any part it could not read in `unavailable`. Return that structure rather than narrating it, keep `bvid` and `start_ms` on every claim, and keep the provenance labels intact — a downstream agent cannot tell a transcript claim from a comment opinion or a generated analysis unless you say which is which.
+When the caller is a workflow or another agent rather than a person reading prose, call `open-study:study_brief` once per video instead of five paginated reads. It returns identity, the stored analysis, the transcript up to `transcript_limit` (400 by default, 1000 at most), comments, and a Mermaid mind map, and names any part it could not read in `unavailable`. Return that structure rather than narrating it, keep `bvid` on every claim, and keep the provenance labels intact — a downstream agent cannot tell a transcript claim from a comment opinion or a generated analysis unless you say which is which.
 
-The mind map is built only from stored analysis fields, and each key point keeps the timestamp of the line that backs it. Present it as exactly that checkable, and do not add branches the analysis does not contain.
+The mind map is built only from stored analysis fields. Present it as exactly that, and do not add branches the analysis does not contain.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.0. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.0, mention
+This skill ships with plugin version 0.8.1. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 0.8.1, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -155,7 +153,7 @@ Never call the disabled `open-study:video_extract` compatibility tool. Do not ca
 
 ## Response shape
 
-Answer the request directly. For a person, prefer a short conclusion, the core ideas, useful timestamped evidence, practical steps, and genuine uncertainties. For an agent, prefer structure. Mention missing sources only when they materially limit the answer. Do not claim that comments or generated analyses are independently verified facts, and do not append routine capture, billing, wallet, or log diagnostics.
+Answer the request directly. For a person, prefer a short conclusion, the core ideas, the evidence that carries them, practical steps, and genuine uncertainties. For an agent, prefer structure. Mention missing sources only when they materially limit the answer. Do not claim that comments or generated analyses are independently verified facts, and do not append routine capture, billing, wallet, or log diagnostics.
 
 ## Tool surface
 
@@ -163,7 +161,7 @@ The cloud MCP exposes 27 bounded tool names. Twenty-six are registered operation
 
 - **Status** — `open-study:system_status`.
 - **Capture** — `open-study:capture_preflight`, `open-study:capture_submit`, `open-study:job_get`, `open-study:task_retry`, `open-study:tasks_list`.
-- **Find** — `open-study:library_search` (titles, authors, descriptions, and one folder via `collection_id`), `open-study:library_content_search` (transcript lines, comments and notes, with timestamps).
+- **Find** — `open-study:library_search` (titles, authors, descriptions, and one folder via `collection_id`), `open-study:library_content_search` (transcript lines, comments and notes).
 - **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`.
 - **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit`.
 

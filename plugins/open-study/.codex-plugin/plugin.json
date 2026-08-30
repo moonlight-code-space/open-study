@@ -1,6 +1,6 @@
 {
   "name": "open-study",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Turn public video and posts from nine platforms into timestamped, checkable evidence that a person or another agent can work from.",
   "author": {
     "name": "Open Study"
@@ -33,7 +33,7 @@
     ],
     "defaultPrompt": [
       "把这个链接收入资料库并直接整理学习要点。",
-      "我记得有人讲过<某句话>，帮我在资料库里找出来，告诉我是哪条、第几分钟。",
+      "我记得有人讲过<某句话>，帮我在资料库里找出来，告诉我在哪条里。",
       "我要做<任务>，先帮我找找这活一般是什么流程、要用什么工具。",
       "把这条内容整理成要点，然后存进它的笔记里。"
     ],
