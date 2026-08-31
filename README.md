@@ -37,5 +37,5 @@ codex plugin add open-study@open-study --json
 
 ## 版本
 
-当前：v0.8.1。变更记录见 git 标签；网站控制台的「快速开始」页提供离线 zip
+当前：v0.8.2。变更记录见 git 标签；网站控制台的「快速开始」页提供离线 zip
 下载与校验值。
