@@ -145,13 +145,13 @@ Answer the request directly. For a person, prefer a short conclusion, the core i
 
 ## Tool surface
 
-The cloud MCP exposes 30 bounded tool names. Twenty-nine are registered operations:
+The cloud MCP exposes 32 bounded tool names. Thirty-one are registered operations:
 
-- **Status** — `open-study:system_status`, `open-study:notifications_list` (operator-published site announcements, exactly what the website bell shows).
+- **Status** — `open-study:system_status`, `open-study:notifications_list` (operator-published site announcements, exactly what the website bell shows), `open-study:usage_status` (plan, membership and per-quota remaining — call it when the user asks how much they can still do, or when an operation was just blocked by quota; do not volunteer the numbers otherwise).
 - **Capture** — `open-study:capture_preflight`, `open-study:capture_submit`, `open-study:job_get`, `open-study:task_retry`, `open-study:tasks_list`.
 - **Find** — `open-study:library_search` (titles, authors, descriptions, and one folder via `collection_id`), `open-study:library_content_search` (transcript lines, comments and notes).
 - **Ask** — `open-study:video_chat` (one grounded question about one saved material; free, stateless, pass up to 6 prior turns yourself).
-- **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
+- **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:collection_brief` (one folder as a cross-material bundle — each member's identity and saved analysis, no transcripts; follow up with `open-study:study_brief` on the members that matter), `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
 - **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit`.
 
-Some depend on the signed-in account and the configured service capability; one that the backend predates returns `CAPABILITY_UNAVAILABLE` rather than failing oddly. The thirtieth name, `open-study:video_extract`, is a fail-closed compatibility alias and must not be used.
+Some depend on the signed-in account and the configured service capability; one that the backend predates returns `CAPABILITY_UNAVAILABLE` rather than failing oddly. The thirty-second name, `open-study:video_extract`, is a fail-closed compatibility alias and must not be used.
