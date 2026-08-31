@@ -126,8 +126,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.2. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.2, mention
+This skill ships with plugin version 0.8.3. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 0.8.3, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -145,13 +145,13 @@ Answer the request directly. For a person, prefer a short conclusion, the core i
 
 ## Tool surface
 
-The cloud MCP exposes 29 bounded tool names. Twenty-eight are registered operations:
+The cloud MCP exposes 30 bounded tool names. Twenty-nine are registered operations:
 
-- **Status** — `open-study:system_status`.
+- **Status** — `open-study:system_status`, `open-study:notifications_list` (operator-published site announcements, exactly what the website bell shows).
 - **Capture** — `open-study:capture_preflight`, `open-study:capture_submit`, `open-study:job_get`, `open-study:task_retry`, `open-study:tasks_list`.
 - **Find** — `open-study:library_search` (titles, authors, descriptions, and one folder via `collection_id`), `open-study:library_content_search` (transcript lines, comments and notes).
 - **Ask** — `open-study:video_chat` (one grounded question about one saved material; free, stateless, pass up to 6 prior turns yourself).
 - **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
 - **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit`.
 
-Some depend on the signed-in account and the configured service capability; one that the backend predates returns `CAPABILITY_UNAVAILABLE` rather than failing oddly. The twenty-ninth name, `open-study:video_extract`, is a fail-closed compatibility alias and must not be used.
+Some depend on the signed-in account and the configured service capability; one that the backend predates returns `CAPABILITY_UNAVAILABLE` rather than failing oddly. The thirtieth name, `open-study:video_extract`, is a fail-closed compatibility alias and must not be used.
