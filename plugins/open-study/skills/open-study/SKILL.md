@@ -52,7 +52,7 @@ The user pasted a link, or asked to collect, organize, summarize, or learn from 
 1. Treat a link-first message or a clear processing request as authorization for one capture. If the link is only an example or discussion subject, answer without collecting it.
 2. Call `open-study:capture_preflight` internally with the exact URL and request parameters. The normal cloud request is metadata, transcript, comments, and cover; full-video archive is unavailable.
 3. If preflight permits submission, call `open-study:capture_submit` immediately in the same MCP session with the returned `confirmation_token`, identical parameters, and `confirm_external_calls=true`. Do not add another confirmation turn.
-4. Follow the returned task with `open-study:job_get` until the server reports a terminal result. Use `open-study:tasks_list` only to rediscover a task after a reconnect, and do not narrate polling unless the wait is unusually long.
+4. Follow the returned task with `open-study:job_get` until the server reports a terminal result. tasks_list is for listing work — recent or failed tasks, one video's history, a task to rediscover after reconnecting (`kind` accepts capture, analysis, export, backup) — not for polling one task.
 5. On success, read the result and answer. `open-study:study_brief` gets the whole video in one call; `open-study:video_get` plus paged `open-study:transcript_read` and `open-study:comments_list` is the choice when you only need a range. Do not query or report usage logs, wallet balance, cache status, or charges.
 
 A video may legitimately come back with an empty transcript. Say so plainly and work from the metadata, description, and comments that did arrive.
@@ -126,8 +126,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.6. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.6, mention
+This skill ships with plugin version 0.8.7. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 0.8.7, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -137,7 +137,7 @@ conversation, and never block a task on it.
 
 If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each and that more come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
 
-Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission; `completed` (and `completed_with_warnings`) is the success terminal state. When the user explicitly asks to retry a task that `job_get` marks `retryable: true`, read that same `job_get` result's `retry_confirmation_token` and pass it to `open-study:task_retry` — `confirm_external_calls=true` alone is refused. `open-study:video_analyze` returns the queued task under `id`; poll it with `open-study:job_get`. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
+Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission; `completed` (and `completed_with_warnings`) is the success terminal state. When the user explicitly asks to retry a task that `job_get` marks `retryable: true`, read that same `job_get` result's `retry_confirmation_token` and pass it to `open-study:task_retry` — `confirm_external_calls=true` alone is refused. A token's `*_is_authorization: false` flag means the token only proves the request matches what was checked; the user's own request is the authorization, and the token never replaces it. `open-study:video_analyze` returns the queued task under `id`; poll it with `open-study:job_get`. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
 
 ## Response shape
 
@@ -152,6 +152,6 @@ The cloud MCP exposes 32 bounded tool names. Thirty-one are registered operation
 - **Find** — `open-study:library_search` (titles, authors, descriptions; narrow with `platform` for one platform, `collection_id` for one folder — `source` there means evidence kind, not platform), `open-study:library_content_search` (transcript lines, comments and notes).
 - **Ask** — `open-study:video_chat` (one grounded question about one saved material; free, stateless, pass up to 6 prior turns yourself).
 - **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:collection_brief` (one folder as a cross-material bundle — each member's identity and saved analysis, no transcripts; follow up with `open-study:study_brief` on the members that matter), `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
-- **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit`.
+- **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit` (account-level export or backup, the website's 账号数据 → 导出资料; the file is picked up on the website, not through MCP — never the way to save one material's notes).
 
 Some depend on the signed-in account and the configured service capability; one that the backend predates returns `CAPABILITY_UNAVAILABLE` rather than failing oddly. The thirty-second name, `open-study:video_extract`, is a fail-closed compatibility alias and must not be used.
