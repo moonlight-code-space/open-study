@@ -63,7 +63,7 @@ The user asks what their saved material says, wants to be taught from it, or is 
 
 1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: every transcript line, every saved comment, and the user's own notes, returning each hit with the material it belongs to. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
 2. Confirm source identity and availability with `open-study:video_get`.
-3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — platforms serve only the first page, roughly the top 20 by likes, so present it as the saved first page, never as every comment the video has.
+3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — what is saved is the platform's first page (Bilibili roughly the top 20 by likes; other platforms often 80–100), so present it as the saved first page, never as every comment the video has, and follow `has_more` / `next_offset` before saying a comment is not there.
 4. Use `open-study:analysis_get` when a stored analysis already answers the request. Call `open-study:video_analyze` only when the user asks for the service's configured analysis provider; a sampled analysis supports only the range it discloses.
 5. Answer with the evidence, keeping source identifiers, and keep four things visibly separate: metadata facts, claims made in the transcript, opinions from comments, and your own synthesis.
 
@@ -126,8 +126,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.5. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.5, mention
+This skill ships with plugin version 0.8.6. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 0.8.6, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -137,7 +137,7 @@ conversation, and never block a task on it.
 
 If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each and that more come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
 
-Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
+Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission; `completed` (and `completed_with_warnings`) is the success terminal state. When the user explicitly asks to retry a task that `job_get` marks `retryable: true`, read that same `job_get` result's `retry_confirmation_token` and pass it to `open-study:task_retry` — `confirm_external_calls=true` alone is refused. `open-study:video_analyze` returns the queued task under `id`; poll it with `open-study:job_get`. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
 
 ## Response shape
 
@@ -149,7 +149,7 @@ The cloud MCP exposes 32 bounded tool names. Thirty-one are registered operation
 
 - **Status** — `open-study:system_status`, `open-study:notifications_list` (operator-published site announcements, exactly what the website bell shows), `open-study:usage_status` (plan, membership and per-quota remaining — call it when the user asks how much they can still do, or when an operation was just blocked by quota; do not volunteer the numbers otherwise).
 - **Capture** — `open-study:capture_preflight`, `open-study:capture_submit`, `open-study:job_get`, `open-study:task_retry`, `open-study:tasks_list`.
-- **Find** — `open-study:library_search` (titles, authors, descriptions, and one folder via `collection_id`), `open-study:library_content_search` (transcript lines, comments and notes).
+- **Find** — `open-study:library_search` (titles, authors, descriptions; narrow with `platform` for one platform, `collection_id` for one folder — `source` there means evidence kind, not platform), `open-study:library_content_search` (transcript lines, comments and notes).
 - **Ask** — `open-study:video_chat` (one grounded question about one saved material; free, stateless, pass up to 6 prior turns yourself).
 - **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:collection_brief` (one folder as a cross-material bundle — each member's identity and saved analysis, no transcripts; follow up with `open-study:study_brief` on the members that matter), `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
 - **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit`.
