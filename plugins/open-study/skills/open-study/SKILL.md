@@ -126,8 +126,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.3. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.3, mention
+This skill ships with plugin version 0.8.5. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 0.8.5, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
