@@ -1,0 +1,26 @@
+{
+  "name": "open-study",
+  "displayName": "Open Study",
+  "version": "0.8.7",
+  "description": "Turn public video and posts from nine platforms into checkable evidence that a person or another agent can work from.",
+  "author": {
+    "name": "Open Study",
+    "url": "https://study.faroapi.cn"
+  },
+  "homepage": "https://study.faroapi.cn",
+  "repository": "https://github.com/moonlight-code-space/open-study",
+  "keywords": [
+    "bilibili",
+    "douyin",
+    "youtube",
+    "tiktok",
+    "weibo",
+    "learning",
+    "research",
+    "mcp",
+    "agent",
+    "mindmap",
+    "notes",
+    "search"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "open-study",
+  "owner": {
+    "name": "Open Study",
+    "url": "https://study.faroapi.cn"
+  },
+  "metadata": {
+    "description": "Open Study：把九个平台的公开视频和帖子整理成可检索、可引用的学习资料，供人和 AI agent 直接取用。"
+  },
+  "plugins": [
+    {
+      "name": "open-study",
+      "source": "./plugins/open-study",
+      "displayName": "Open Study",
+      "description": "把九个平台的视频和帖子整理成可检索的学习资料，供人和 agent 直接取用。",
+      "version": "0.8.7",
+      "author": {
+        "name": "Open Study",
+        "url": "https://study.faroapi.cn"
+      },
+      "homepage": "https://study.faroapi.cn",
+      "repository": "https://github.com/moonlight-code-space/open-study",
+      "category": "productivity",
+      "keywords": [
+        "bilibili",
+        "douyin",
+        "youtube",
+        "tiktok",
+        "weibo",
+        "learning",
+        "research",
+        "mcp",
+        "agent",
+        "mindmap",
+        "notes",
+        "search"
+      ]
+    }
+  ]
+}

@@ -20,6 +20,19 @@ Open Study 服务端、数据库、任何凭据或用户数据。服务在
 
 ## 安装
 
+### Claude Code
+
+```bash
+claude plugin marketplace add https://github.com/moonlight-code-space/open-study.git
+claude plugin install open-study@open-study --scope user
+```
+
+`--scope user` 对本机所有项目生效；只想在当前仓库用就换成 `--scope project` 或 `--scope local`。
+首次调用工具时在会话里输入 `/mcp` 完成网站登录授权。更新用
+`claude plugin marketplace update open-study` 再 `claude plugin update open-study@open-study`。
+
+### 其他客户端
+
 任何支持 MCP 的客户端，直接添加远程 MCP：`https://study.faroapi.cn/mcp`
 （首次调用会打开网站的正常登录授权，插件不经手密码）。
 
