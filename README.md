@@ -6,25 +6,33 @@
 
 # Open Study 能干什么？
 
-### 你贴一条链接，它整理成资料
-**你说：** "整理这个视频，告诉我怎么完成里面的操作。"
-Agent 把字幕、评论、封面收进你的资料库，附一份分析和一张总结图，然后按视频里的步骤给你一份操作清单。没有字幕的视频，它听音频转成文字。
+下面六段都是首页「场景」里的真实用法：真视频、真评论、真问题。你说一句话，Agent 交回来的是一份能直接用的东西。
 
-### 你记得半句话，它翻出那条视频
-**你说：** "我之前存过一个视频，讲的是某个版本千万别装，是哪条？"
-搜的是全库的字幕、评论和你的笔记，不是只看标题。找到之后告诉你是哪条视频、谁说的、评论区有没有人补充。
+### 写代码的人：一条部署教程够不够走完
+**你说：** "我用 AI 写了个 HTML 小工具，想发给同事看。收藏夹里那条部署教程，够不够走完？"
+它把那条两分钟的教程收进库，通读字幕和评论，告诉你正文走到了哪一步、评论区卡在哪、有人补了哪几条别的路，最后提醒你链接发出去前自己先发一条试。
 
-### 你要动手做，它先看看别人怎么做
-**你说：** "我准备用 Docker 部署这个项目。"
-它会先问一句"要不要先找找这活一般怎么做"，自己想搜索词、找教程、读完字幕，再开始干。做到一半卡住，你再丢一条讲这个坑的视频给它。
+### 做视频的人：开头那几十秒怎么起
+**你说：** "明天开拍旧衣柜改造，开头几十秒起不来。找一条同题材播放高的收进来，把开头拆开给我看。"
+它把开头拆成一拍一拍的顺序，对照库里另外两条同题材视频的头几句，说清哪一段能照搬、哪一段得回看原片，再把评论区追着问的那件事标出来。
 
-### 你要交给另一个 Agent，一次拿全
-**你说：** "把这条视频的资料打包给写作助手。"
-来源、分析、字幕、评论，外加一张思维导图，一次调用拿走。导出的 Markdown 和网页上下载的一模一样。
+### 开网店的人：差评在上架前就写好了
+**你说：** "我打算上一批瑜伽垫，想先知道买家最后会因为什么退货，别等差评堆上来才反应过来。"
+它读完那条测评的口播和评论，列出买家事后卡在哪、买垫子其实为了什么、口播里哪句和高赞评论对不上，让你上架前就知道差评会从哪来。
 
-### 你想留个记号
-**你说：** "把这个结论存进笔记，放到'部署'文件夹。"
-笔记、文件夹、分析里的练习步骤打勾，都写回你的资料库。下次问"我上次看到哪了"，它按你打开的顺序找回来。
+### 装修的人：明天开槽前的水电清单
+**你说：** "水电师傅说明天就开槽，让我今天定走天还是走地、电线买几平方，我一个都答不上来。"
+它从一条四十多分钟的水电长视频里把能拿到的数收拢成一张表，标出口播提到但字幕带不出来的几处，再把评论区顶回来的三个问题一起给你，明天站到工地上能对得上话。
+
+### 教书的人：一节透镜课的讲法拆解
+**你说：** "接下来要讲凸透镜成像规律，班上一半人靠死背表格，想找一段真讲得明白的，顺带看看学生卡在哪。"
+它找到那条讲得最清楚的，拆出口诀是怎么搭起来的、评论里学生反复卡住的几件事、哪几处需要你自己再核，并说明这条没讲到光路作图。
+
+### 学语言的人：英文会上怎么接话
+**你说：** "组里改成全英开会了，最怕的是没听懂时怎么开口，库里那两条会议英语哪条真讲了这个？"
+它把两条并排读一遍，告诉你卡住时怎么接话在哪条里、跟读课能补上什么、可用的部分有多长，最后建议先把"答不上来"和"没听懂"两句备熟。
+
+每一段的边界它都会说清：字幕不分说话人、画面看不见、评论只是最热的一页。你拿到的是资料和判断，不是编出来的答案。
 
 # 快速开始
 
@@ -96,10 +104,11 @@ Paste a public video link and your agent can read what the video says and what t
 
 **What it can do**
 
-- "Organize this video and tell me how to do what it shows": transcript, comments, cover, an analysis and a summary image land in your library; no subtitles means the audio gets transcribed.
-- "Which saved video warned against a certain version?": search across every transcript, comment and note, not just titles.
-- "I'm about to deploy this with Docker": it offers to look up how people usually do it first, reads the tutorial, then starts.
-- "Hand this video to my writing assistant": source, analysis, transcript, comments and a mind map in one call; Markdown export matches the website download.
+- "I built a small HTML tool with AI. Is that deployment tutorial in my library enough to get it in front of a colleague?": it reads the transcript and comments, tells you how far the tutorial actually goes and where viewers got stuck.
+- "I'm shooting a wardrobe makeover tomorrow and the opening won't come together": it breaks the opening of a high-view video into beats and compares two similar ones already saved.
+- "Before I stock yoga mats, tell me why buyers end up returning them": it reads the review and its comments and lists the reasons before the first bad review arrives.
+- "The electrician starts tomorrow and I can't answer a single question": it pulls the numbers out of a forty-minute walkthrough into one table and flags what the video shows but never says.
+- Every answer states its limits: transcripts don't separate speakers, the picture is unseen, comments are the hottest page only.
 
 **Quick start**: paste the setup prompt above into Claude Code, Codex, Cursor or any MCP client, or add the remote MCP `https://study.faroapi.cn/mcp`. Sign-in happens on the website; the plugin never sees your password or keys. Reading is free; capturing a new item spends monthly credits.
 
