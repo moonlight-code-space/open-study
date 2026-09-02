@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    width: 260px;
+    margin: 0;
+    font: 13px/1.6 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", system-ui, sans-serif;
+    color: #121513;
+    background: #ffffff;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e4e7e3;
+    font-weight: 650;
+  }
+  header .dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: #189b53;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+  }
+  main { padding: 12px; }
+  p { margin: 0 0 10px; font-size: 12px; color: #59615a; overflow-wrap: anywhere; }
+  button {
+    width: 100%;
+    height: 34px;
+    border: 0;
+    border-radius: 8px;
+    background: #189b53;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:disabled { background: #d7dcd7; color: #59615a; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<header><span class="dot">O</span>Open Study</header>
+<main>
+  <p id="page">正在读取当前页面……</p>
+  <button id="send" disabled>收进 Open Study</button>
+</main>
+<script src="popup.js"></script>
+</body>
+</html>

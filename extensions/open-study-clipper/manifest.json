@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Open Study 收藏入口",
+  "version": "0.2.1",
+  "description": "在视频或帖子页面点一下，把这条内容带进 Open Study 整理。不读取页面内容，不保存任何数据。",
+  "permissions": [
+    "activeTab"
+  ],
+  "action": {
+    "default_title": "收进 Open Study",
+    "default_popup": "popup.html"
+  }
+}

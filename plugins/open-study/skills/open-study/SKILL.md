@@ -57,13 +57,15 @@ The user pasted a link, or asked to collect, organize, summarize, or learn from 
 
 A video may legitimately come back with an empty transcript. Say so plainly and work from the metadata, description, and comments that did arrive.
 
+Two partial results are normal and are not failures. `metadata_degraded: true` on a saved item means the platform blocked the detail lookup, so the title may be the part name and author, cover and stats can be empty — say the basic info is incomplete and offer a later `open-study:capture_submit` with `mode=fill_missing` to complete it. A comments source reported as unavailable with `retryable: true` means every comment channel was pausing at that moment; the rest of the material is intact and a later `fill_missing` capture fetches the comments.
+
 ## Workflow 2 · Answer from the library
 
 The user asks what their saved material says, wants to be taught from it, or is looking for a video they remember.
 
 1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: every transcript line, every saved comment, and the user's own notes, returning each hit with the material it belongs to. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
 2. Confirm source identity and availability with `open-study:video_get`.
-3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — what is saved is the platform's first page (Bilibili roughly the top 20 by likes; other platforms often 80–100), so present it as the saved first page, never as every comment the video has, and follow `has_more` / `next_offset` before saying a comment is not there.
+3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — what is saved is a bounded slice of the hottest comments (Bilibili up to about 100 by likes, fewer when the platform answered with a single page; other platforms often 80–100), so present it as the saved slice, never as every comment the video has, and follow `has_more` / `next_offset` before saying a comment is not there.
 4. Use `open-study:analysis_get` when a stored analysis already answers the request. Call `open-study:video_analyze` only when the user asks for the service's configured analysis provider; a sampled analysis supports only the range it discloses.
 5. Answer with the evidence, keeping source identifiers, and keep four things visibly separate: metadata facts, claims made in the transcript, opinions from comments, and your own synthesis.
 
@@ -126,8 +128,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 0.8.7. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 0.8.7, mention
+This skill ships with plugin version 1.0.0. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 1.0.0, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -135,7 +137,7 @@ conversation, and never block a task on it.
 
 ## When something fails
 
-If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each and that more come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
+If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each, that a video without platform subtitles also spends 1 credit per started 10 minutes of audio for transcription (refunded when no transcript came back), and that more credits come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
 
 Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission; `completed` (and `completed_with_warnings`) is the success terminal state. When the user explicitly asks to retry a task that `job_get` marks `retryable: true`, read that same `job_get` result's `retry_confirmation_token` and pass it to `open-study:task_retry` — `confirm_external_calls=true` alone is refused. A token's `*_is_authorization: false` flag means the token only proves the request matches what was checked; the user's own request is the authorization, and the token never replaces it. `open-study:video_analyze` returns the queued task under `id`; poll it with `open-study:job_get`. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
 
