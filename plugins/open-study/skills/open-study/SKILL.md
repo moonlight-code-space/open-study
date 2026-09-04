@@ -52,7 +52,7 @@ The user pasted a link, or asked to collect, organize, summarize, or learn from 
 1. Treat a link-first message or a clear processing request as authorization for one capture. If the link is only an example or discussion subject, answer without collecting it.
 2. Call `open-study:capture_preflight` internally with the exact URL and request parameters. The normal cloud request is metadata, transcript, comments, and cover; full-video archive is unavailable.
 3. If preflight permits submission, call `open-study:capture_submit` immediately in the same MCP session with the returned `confirmation_token`, identical parameters, and `confirm_external_calls=true`. Do not add another confirmation turn.
-4. Follow the returned task with `open-study:job_get` until the server reports a terminal result. tasks_list is for listing work — recent or failed tasks, one video's history, a task to rediscover after reconnecting (`kind` accepts capture, analysis, export, backup) — not for polling one task.
+4. Follow the returned task with `open-study:job_get` until the server reports a terminal result. Each reply carries `poll_after_seconds`: wait that long before the next check and do not poll faster. tasks_list is for listing work — recent or failed tasks, one video's history, a task to rediscover after reconnecting (`kind` accepts capture, analysis, export, backup) — not for polling one task.
 5. On success, read the result and answer. `open-study:study_brief` gets the whole video in one call; `open-study:video_get` plus paged `open-study:transcript_read` and `open-study:comments_list` is the choice when you only need a range. Do not query or report usage logs, wallet balance, cache status, or charges.
 
 A video may legitimately come back with an empty transcript. Say so plainly and work from the metadata, description, and comments that did arrive.
@@ -141,8 +141,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 1.0.2. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 1.0.2, mention
+This skill ships with plugin version 1.0.3. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 1.0.3, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -150,7 +150,7 @@ conversation, and never block a task on it.
 
 ## When something fails
 
-If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each, that a video without platform subtitles also spends 1 credit per started 10 minutes of audio for transcription (refunded when no transcript came back), and that more credits come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
+If preflight or submission fails for insufficient credits, say briefly that captures cost 1 credit each, that a video without platform subtitles also spends 1 credit per started 5 minutes of audio for transcription (refunded when no transcript came back), and that more credits come from the daily check-in on the Open Study site or from the monthly allowance renewing. If the product is offline or a provider is unavailable, say the interface is temporarily unavailable and suggest trying later or contacting the administrator. For authentication failure, use the normal connection flow. Keep other errors short and actionable, and do not expose internal receipts or billing fields.
 
 Never call the disabled `open-study:video_extract` compatibility tool. Do not call `open-study:task_retry` automatically. A failed, interrupted, `outcome_unknown`, or `review_required` task ends this attempt — report the concise server outcome rather than risking a duplicate submission; `completed` (and `completed_with_warnings`) is the success terminal state. When the user explicitly asks to retry a task that `job_get` marks `retryable: true`, read that same `job_get` result's `retry_confirmation_token` and pass it to `open-study:task_retry` — `confirm_external_calls=true` alone is refused. A token's `*_is_authorization: false` flag means the token only proves the request matches what was checked; the user's own request is the authorization, and the token never replaces it. `open-study:video_analyze` returns the queued task under `id`; poll it with `open-study:job_get`. If a receipt expires before submission, repeat the non-mutating preflight once and submit only if it still describes the same request.
 
