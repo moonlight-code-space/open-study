@@ -63,7 +63,7 @@ Two partial results are normal and are not failures. `metadata_degraded: true` o
 
 The user asks what their saved material says, wants to be taught from it, or is looking for a video they remember.
 
-1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: every transcript line, every saved comment, and the user's own notes, returning each hit with the material it belongs to. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
+1. Pick the search that matches the question. `open-study:library_search` matches titles, authors and descriptions — right for "find that video about X". `open-study:library_content_search` matches **what was actually said**: transcript lines, saved comments and the user's own notes, returning each hit with the material it belongs to. It finds materials rather than counting occurrences — at most five hits per material, fifty in all — so when it reports `truncated: true`, call it again with `offset` set to the returned `next_offset` to read the next page instead of treating the first page as complete. Page only when the question needs the rest; one page answers most questions. When the user half-remembers a phrase rather than a title, that is the one to reach for. Search their own words first, then likely synonyms.
 2. Confirm source identity and availability with `open-study:video_get`.
 3. Page the actual evidence with `open-study:transcript_read`; its `query` parameter finds exact wording. When the user asks for the transcript itself, hand it over as clean continuous prose — join the segments, no per-line timestamps, no segment numbers. Timestamps exist in the data for locating a moment when someone asks "where was that said"; they are not decoration, and a transcript where every line drags one along is mostly timestamps. Use `open-study:comments_list` when audience reaction genuinely helps — what is saved is a bounded slice of the hottest comments (Bilibili up to about 100 by likes, fewer when the platform answered with a single page; other platforms often 80–100), so present it as the saved slice, never as every comment the video has, and follow `has_more` / `next_offset` before saying a comment is not there.
 4. Use `open-study:analysis_get` when a stored analysis already answers the request. Call `open-study:video_analyze` only when the user asks for the service's configured analysis provider; a sampled analysis supports only the range it discloses.
@@ -141,8 +141,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 1.0.1. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 1.0.1, mention
+This skill ships with plugin version 1.0.2. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 1.0.2, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same
@@ -164,7 +164,7 @@ The cloud MCP exposes 32 bounded tool names. Thirty-one are registered operation
 
 - **Status** — `open-study:system_status`, `open-study:notifications_list` (operator-published site announcements, exactly what the website bell shows), `open-study:usage_status` (plan, membership and per-quota remaining — call it when the user asks how much they can still do, or when an operation was just blocked by quota; do not volunteer the numbers otherwise).
 - **Capture** — `open-study:capture_preflight`, `open-study:capture_submit`, `open-study:job_get`, `open-study:task_retry`, `open-study:tasks_list`.
-- **Find** — `open-study:library_search` (titles, authors, descriptions; narrow with `platform` for one platform, `collection_id` for one folder — `source` there means evidence kind, not platform), `open-study:library_content_search` (transcript lines, comments and notes).
+- **Find** — `open-study:library_search` (titles, authors, descriptions; narrow with `platform` for one platform, `collection_id` for one folder — `source` there means evidence kind, not platform), `open-study:library_content_search` (transcript lines, comments and notes; `limit` up to 50, `offset`/`next_offset` to page).
 - **Ask** — `open-study:video_chat` (one grounded question about one saved material; free, stateless, pass up to 6 prior turns yourself).
 - **Read** — `open-study:video_get`, `open-study:study_brief`, `open-study:collection_brief` (one folder as a cross-material bundle — each member's identity and saved analysis, no transcripts; follow up with `open-study:study_brief` on the members that matter), `open-study:transcript_read`, `open-study:comments_list`, `open-study:analysis_get`, `open-study:notes_read`, `open-study:recent_reads`, `open-study:collections_list`, `open-study:practice_read`, `open-study:study_export`, `open-study:analysis_image_get` (whether the shareable summary image exists, with its view URL; generating one stays on the website).
 - **Write** — `open-study:video_analyze`, `open-study:notes_write`, `open-study:practice_write`, `open-study:collection_create`, `open-study:collection_rename`, `open-study:collection_delete`, `open-study:collection_membership`, `open-study:artifact_submit` (account-level export or backup, the website's 账号数据 → 导出资料; the file is picked up on the website, not through MCP — never the way to save one material's notes).

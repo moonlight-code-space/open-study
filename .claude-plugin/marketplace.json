@@ -13,7 +13,7 @@
       "source": "./plugins/open-study",
       "displayName": "Open Study",
       "description": "把九个平台的视频和帖子整理成可检索的学习资料，供人和 agent 直接取用。",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": {
         "name": "Open Study",
         "url": "https://study.faroapi.cn"
