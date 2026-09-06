@@ -1,6 +1,6 @@
 interface:
   display_name: "Open Study"
-  short_description: "把九个平台的视频和帖子整理成可检索的学习资料，供人和 agent 直接取用"
+  short_description: "把视频和帖子整理成资料，让 AI 帮你找做法、学工具、继续完成工作"
   icon_small: "./assets/open-study.svg"
   icon_large: "./assets/open-study.svg"
   brand_color: "#117941"

@@ -1,6 +1,6 @@
 {
   "name": "open-study",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Turn public video and posts from nine platforms into checkable evidence that a person or another agent can work from.",
   "author": {
     "name": "Open Study"
@@ -23,8 +23,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Open Study",
-    "shortDescription": "把九个平台的视频和帖子整理成可检索的学习资料，供人和 agent 直接取用。",
-    "longDescription": "连接 Open Study 云端资料库。消息里主要是 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube、Instagram 的公开链接（或 BVID、分享口令）时，AI 会直接采集并等到网站返回结果，再用字幕、评论和已有分析回答。已经存下来的内容可以按标题找，也可以按「谁说过这句话」找——搜遍全库的字幕、评论和你自己的笔记。整理出来的结论可以写回这份资料的笔记，也可以按主题建文件夹归到一起，下次打开网站就在那儿。你提到存过或看过的资料、问「一般怎么做」并想要来源，或者点名自己关注的主题时，它才顺手找一次库里有没有相关的，找到就说一句，没找到就不打扰。给另一个 agent 或工作流用时，一次调用就能拿到整条内容：来源、分析、字幕、评论，外加一张按分析结构生成的思维导图。网页与 MCP 使用同一账号；价格、钱包和调用记录留在网站查看，不打断正常学习流程。",
+    "shortDescription": "把视频和帖子整理成资料，让 AI 帮你找做法、学工具、继续完成工作。",
+    "longDescription": "把视频或帖子链接发给 AI，就能读取内容、整理要点，以后还可以继续提问。支持 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube 和 Instagram。不知道怎么开始、做到一半卡住、拿不定主意或想改善效果时，AI 可以建议参考教程和实例，再帮你继续做。保存过的资料可以按标题或内容查找；新链接由 AI 自己联网寻找，Open Study 负责读取和整理，不直接提供全网搜索。你也可以让 AI 把结论存进笔记、按主题整理资料。网站和 AI 中使用的是同一份资料库。",
     "developerName": "Open Study",
     "category": "Productivity",
     "capabilities": [
@@ -34,8 +34,7 @@
     "defaultPrompt": [
       "把这个链接收入资料库并直接整理学习要点。",
       "我记得有人讲过<某句话>，帮我在资料库里找出来，告诉我在哪条里。",
-      "我要做<任务>，先帮我找找这活一般是什么流程、要用什么工具。",
-      "把这条内容整理成要点，然后存进它的笔记里。"
+      "我要做<任务>，结合适用的教程和案例帮我完善方案。"
     ],
     "brandColor": "#117941"
   }
