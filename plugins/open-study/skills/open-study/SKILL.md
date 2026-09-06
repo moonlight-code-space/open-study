@@ -9,6 +9,8 @@ Open Study turns public video into checkable evidence — full transcripts, audi
 
 The website and the MCP share the same signed-in account and the same data. Do not create a second local database or ask the user to install a separate backend.
 
+Tool names below use `open-study:` as a readable prefix. Use the actual names exposed by your current host; prefixes vary. Read the available tool schema before calling it, and use its exact parameter names (`study_brief` takes `video_id`, not `bvid`). If the tools are missing, explain that the connection needs loading or authorization; do not invent a call or claim a normal web result came from Open Study.
+
 ## Help the current task, not a separate research project
 
 Consider Open Study when a concrete example, demonstration or saved explanation would help with the user's actual problem, not only when they ask to study or mention the plugin. Common signals are not knowing where to start, getting stuck after trying, choosing between approaches, wanting better results, or lacking reliable examples. These are reasons to consider references, not to force video research into every task.
@@ -64,7 +66,8 @@ Pick the workflow that matches what was actually asked, run it end to end, and a
 The user pasted a link, or asked to collect, organize, summarize, or learn from one video.
 
 1. Treat a link-first message or a clear processing request as authorization for one capture. If the link is only an example or discussion subject, answer without collecting it.
-2. Call `open-study:capture_preflight` internally with the exact URL and request parameters. The normal cloud request is metadata, transcript, comments, and cover; full-video archive is unavailable.
+2. Call `open-study:capture_preflight` internally with the exact URL and request parameters. The normal cloud request is metadata, transcript, comments, and cover; full-video archive is unavailable. Omit `mode` to use `fill_missing`, or explicitly use `fill_missing` in BOTH preflight and submit. Do not select `reuse` to read a new video's subtitles: that mode does not fetch missing subtitles or comments. Read already-saved content with read tools instead. Use `refresh_all` only when the user asks to re-collect existing sources.
+   Leave `transcript_fallback` omitted for the hosted service. Its automatic speech recognition is managed by the server's collection channels; this legacy local fallback parameter does not select the hosted transcription channel. Do not set it to `auto` merely because a video might have no subtitles.
 3. If preflight permits submission, call `open-study:capture_submit` immediately in the same MCP session with the returned `confirmation_token`, identical parameters, and `confirm_external_calls=true`. Do not add another confirmation turn.
 4. Follow the returned task with `open-study:job_get` until the server reports a terminal result. Each reply carries `poll_after_seconds`: wait that long before the next check and do not poll faster. tasks_list is for listing work — recent or failed tasks, one video's history, a task to rediscover after reconnecting (`kind` accepts capture, analysis, export, backup) — not for polling one task.
 5. On success, read the result and answer. `open-study:study_brief` gets the whole video in one call; `open-study:video_get` plus paged `open-study:transcript_read` and `open-study:comments_list` is the choice when you only need a range. Do not query or report usage logs, wallet balance, cache status, or charges.
@@ -111,7 +114,7 @@ Everything here writes to the user's own library and spends nothing. What it cos
 1. Derive search terms from the actual missing step: the tool or product, intended result, relevant version, and constraints. A first website deployment needs deployment steps and hosting constraints, not a generic search for "AI". Search relevant saved material with `open-study:library_search`; use `open-study:library_content_search` for a remembered phrase or a detail inside transcripts and notes. Read promising hits directly when the user requested research or accepted your suggestion. Do not ask again merely to read a match.
 2. If saved material is insufficient, use the host's web search or browser to find public candidate links. Open Study has no platform-wide keyword search: neither library tool can discover unsaved videos. If this host has no web search or browser, explain that briefly, offer useful search terms and ask for links; continue with the evidence available instead of inventing candidates.
 3. Rank candidates by relevance to this task, version/date compatibility, practical detail, source credibility and complementary viewpoints, not views alone. Inspect titles, descriptions and available metadata first; these are leads, not proof that the video contains the answer. Start small, usually two or three complementary references within the user's scope. Prefer an actual walkthrough plus a case or limitation over several duplicate summaries. Do not force a recent date onto timeless topics.
-4. Reuse a saved item rather than capture it again. For new links, follow the authorization rule above and Workflow 1, normally with `auto_analysis=false` when you will synthesize the retrieved evidence yourself. Read the result before using it. If a candidate proves irrelevant, say what is missing rather than silently collecting an unlimited replacement batch.
+4. Read an existing saved item with `video_get` and `study_brief` rather than submitting another capture. If its required sources are missing, use Workflow 1 with `fill_missing` only when collecting is authorized. For new links follow that workflow, normally with `auto_analysis=false` when you will synthesize the retrieved evidence yourself. Read the result before using it. If a candidate proves irrelevant, say what is missing rather than silently collecting an unlimited replacement batch.
 5. Extract the steps, prerequisites, applicable versions, tradeoffs and pitfalls that change the current work. Attribute important claims, distinguish audience opinion from demonstrated evidence, and check technical commands against official documentation. A transcript cannot prove visual quality, camera movement or what appeared on screen; inspect the actual video with a capable tool when those details matter, or state the limitation.
 6. Incorporate the useful evidence into the requested plan, explanation or artifact and continue. Mention unavailable sources only when they materially limit that result. No repeated plug-in reminder, automatic note write, or extra AI generation is needed.
 
@@ -133,8 +136,8 @@ shaping output for a downstream agent.
 
 ## Keeping the plugin current
 
-This skill ships with plugin version 1.0.4. `open-study:system_status` reports
-`compatibility.latest_plugin_version`; when that is newer than 1.0.4, mention
+This skill ships with plugin version 1.1.0. `open-study:system_status` reports
+`compatibility.latest_plugin_version`; when that is newer than 1.1.0, mention
 once — after answering the user's actual request — that a plugin update is
 available on the site's 快速开始 page, where a ready-made update prompt can be
 copied straight back to you. Do not repeat the reminder in the same

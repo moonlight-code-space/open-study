@@ -1,10 +1,11 @@
 {
   "name": "open-study",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Turn public video and posts from nine platforms into checkable evidence that a person or another agent can work from.",
   "author": {
     "name": "Open Study"
   },
+  "homepage": "https://study.faroapi.cn",
   "keywords": [
     "bilibili",
     "douyin",
@@ -22,6 +23,10 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
+    "websiteURL": "https://study.faroapi.cn",
+    "composerIcon": "./assets/open-study.svg",
+    "logo": "./assets/open-study.svg",
+    "logoDark": "./assets/open-study.svg",
     "displayName": "Open Study",
     "shortDescription": "把视频和帖子整理成资料，让 AI 帮你找做法、学工具、继续完成工作。",
     "longDescription": "把视频或帖子链接发给 AI，就能读取内容、整理要点，以后还可以继续提问。支持 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube 和 Instagram。不知道怎么开始、做到一半卡住、拿不定主意或想改善效果时，AI 可以建议参考教程和实例，再帮你继续做。保存过的资料可以按标题或内容查找；新链接由 AI 自己联网寻找，Open Study 负责读取和整理，不直接提供全网搜索。你也可以让 AI 把结论存进笔记、按主题整理资料。网站和 AI 中使用的是同一份资料库。",
