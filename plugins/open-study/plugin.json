@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "open-study",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Read public videos and posts, find saved material, and turn useful examples into practical answers.",
   "author": {"name": "Open Study", "url": "https://study.faroapi.cn"},
   "homepage": "https://study.faroapi.cn",
