@@ -1,33 +1,21 @@
-# What to suggest when someone asks what Open Study is for
+# 围绕当前工作说明 Open Study 的用途
 
-Read this when the user asks what Open Study can do, or has just connected
-and clearly does not know what to ask yet.
+用户问 Open Study 能做什么，或刚连接却不知道从哪里开始时，读取本文件。结合对方正在做的事情，给少量能直接照着说的例子，不朗读工具清单，也不假定资料库已经有对应内容。
 
-The most common way this connection goes to waste is not a bug: someone
-installs the plugin, it works, and then they cannot think of anything to ask.
-So when the user asks what Open Study can do — or when they have just
-connected and clearly do not know yet — do not read the tool list out loud.
-Give them two or three lines they could actually type, picked for **their**
-work, not for a student's.
+例子用于说明需求，不是必须匹配的口令或统一数量限制：
 
-Whatever their field is, the shape is the same: some of what they need to know
-was said out loud in a video and is not written down anywhere. Examples, so
-the range is visible:
+| 用户正在做什么 | 可以这样提出需求 |
+|---|---|
+| 学陌生操作 | “我第一次做这个，找适合新手的操作教程，读完后带我完成。” |
+| 做方案或作品 | “参考同类案例，帮我确定做法，再完成这份方案。” |
+| 改善已有结果 | “这份作品效果普通，找能改进具体问题的案例，读完帮我修改。” |
+| 选择方法 | “结合适合我这些条件的实际案例，比较两种做法，并帮我开始操作。” |
+| 查旧资料、继续学习 | “我之前看的教程是怎么做这一步的？找到相关内容，接着带我练。” |
+| 研究作者或主题 | “整理这位作者最近一个月的公开帖子，分批读完并说明覆盖范围。” |
+| 核对说法 | “这几条视频对这个问题的说法一致吗？找出原话和分歧，并核对必要依据。” |
+| 了解受众反应 | “这条视频已经保存的评论里，大家主要在问什么、抱怨什么？” |
+| 培训、教学或生活实践 | “找与这次新人培训有关的示范案例，读完后帮我安排讲解和练习。” |
 
-- Starting something new — "我第一次做这件事，帮我找两个实际教程，读完后告诉我先做什么。"
-- Getting stuck — "我保存的那个教程是怎么做这一步的？帮我找出来，对照我现在的问题看看。"
-- Choosing a method — "结合我保存的资料，比一比这两种做法，哪种更适合我现在的条件？"
-- Improving work — "找几个同类作品，把值得参考的做法整理出来，再帮我改这份方案。"
-- Writing code — "这个教程有些旧了，帮我检查哪些步骤现在还适用。"
-- Marketing or sales — "这条视频下面，大家最不满意的是什么？"
-- Research — "他说这个结论时，原话是什么？另外两条视频的说法一样吗？"
-- Studying — "这节课讲了哪些重点？我应该先练什么？"
-- Learning a language — "把这段对话里常用的口语表达整理出来。"
+用户已提出相关研究需求，或当前可见偏好已授权主动参考，就开始执行，不再问是否研究；主 Skill 决定具体范围。尚无这类请求时，只围绕能改进的具体问题提出一次建议，并继续独立工作。用户拒绝后不在同一问题里反复提醒。
 
-These are examples of requests, not evidence that the account already contains
-matching material. Match the user's language. When merely suggesting research,
-use the one-off optional offer in SKILL.md, not a catalogue of all these examples.
-
-Two things worth saying once, because neither is guessable: the library is
-searchable by **what was said**, not just by title, and anything concluded here
-can be written back into the material's notes so it is still there next week.
+需要介绍能力时，可以说明：资料库不只按标题找，还能查描述、字幕、已保存评论和笔记；用户也可以要求把结论保存为笔记，下次继续使用。新链接由当前 AI 软件的搜索功能发现，再用 Open Study 读取支持的内容。资料库为空不表示无法研究新内容，查询旧资料也不自动扩大成网上收集。

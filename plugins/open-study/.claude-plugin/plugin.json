@@ -1,8 +1,8 @@
 {
   "name": "open-study",
   "displayName": "Open Study",
-  "version": "1.1.1",
-  "description": "Turn public video and posts from nine platforms into checkable evidence that a person or another agent can work from.",
+  "version": "1.1.2",
+  "description": "用教程、真实案例和已保存资料，帮助用户学习操作、创作设计、制定方案、比较方法，改善工作或生活中的做法。 也用于读取支持平台的公开视频和帖子、按作者或主题整理指定范围的内容、查询已保存资料。 在选定做法或动手前主动识别参考价值，不等用户点名插件；已有相关研究需求或主动参考授权就直接执行，否则提出具体建议。 读后继续完成原任务。无需查资料的小改动直接完成。",
   "author": {
     "name": "Open Study",
     "url": "https://study.faroapi.cn"

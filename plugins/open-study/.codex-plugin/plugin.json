@@ -1,7 +1,7 @@
 {
   "name": "open-study",
-  "version": "1.1.1",
-  "description": "Turn public video and posts from nine platforms into checkable evidence that a person or another agent can work from.",
+  "version": "1.1.2",
+  "description": "用教程、真实案例和已保存资料，帮助用户学习操作、创作设计、制定方案、比较方法，改善工作或生活中的做法。 也用于读取支持平台的公开视频和帖子、按作者或主题整理指定范围的内容、查询已保存资料。 在选定做法或动手前主动识别参考价值，不等用户点名插件；已有相关研究需求或主动参考授权就直接执行，否则提出具体建议。 读后继续完成原任务。无需查资料的小改动直接完成。",
   "author": {
     "name": "Open Study"
   },
@@ -28,8 +28,8 @@
     "logo": "./assets/open-study.svg",
     "logoDark": "./assets/open-study.svg",
     "displayName": "Open Study",
-    "shortDescription": "把视频和帖子整理成资料，让 AI 帮你找做法、学工具、继续完成工作。",
-    "longDescription": "把视频或帖子链接发给 AI，就能读取内容、整理要点，以后还可以继续提问。支持 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube 和 Instagram。不知道怎么开始、做到一半卡住、拿不定主意或想改善效果时，AI 可以建议参考教程和实例，再帮你继续做。保存过的资料可以按标题或内容查找；新链接由 AI 自己联网寻找，Open Study 负责读取和整理，不直接提供全网搜索。你也可以让 AI 把结论存进笔记、按主题整理资料。网站和 AI 中使用的是同一份资料库。",
+    "shortDescription": "用教程、案例和已有资料，帮助 AI 学操作、做方案、改善工作和生活中的做法。",
+    "longDescription": "做设计、制定方案、学习工具、比较方法或改善结果时，AI 可以主动识别值得参考的教程与案例，读取后继续帮你完成工作。你已经要求研究或授权主动参考时，直接在范围内执行；尚未提出研究时，给出具体建议。支持读取 B 站、抖音、X、TikTok、小红书、快手、微博、YouTube 和 Instagram 的公开内容，也可整理作者在指定时间内的动态。新链接由 AI 软件的搜索功能发现，Open Study 负责读取；已有资料可按标题、描述、字幕、评论或笔记查找。你可以要求保存结论、整理合集，网站与 AI 使用同一份资料库。",
     "developerName": "Open Study",
     "category": "Productivity",
     "capabilities": [
@@ -37,9 +37,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "把这个链接收入资料库并直接整理学习要点。",
-      "我记得有人讲过<某句话>，帮我在资料库里找出来，告诉我在哪条里。",
-      "我要做<任务>，结合适用的教程和案例帮我完善方案。"
+      "我要做<任务>，查找适用的教程和案例，读完后帮我完成。",
+      "整理<作者>在<时间段>内的公开帖子，逐批读取并说明覆盖范围。",
+      "结合我保存的资料，比较这两种做法，帮我选择并继续操作。"
     ],
     "brandColor": "#117941"
   }

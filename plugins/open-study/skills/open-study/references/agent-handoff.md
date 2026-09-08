@@ -1,10 +1,11 @@
-# Handing material to another agent or workflow
+# 把资料交给其他 Agent 或工具
 
-Read this when the caller is a workflow or another agent rather than a person
-reading prose.
+只有调用方需要供程序继续处理的数据时，才按本文件组织结构化结果。调用方是 Agent 并不等于它要原始数据；如果最终需要给人解释，按主 Skill 整理有用的内容，不默认输出时间线或整份工具结果。
 
-Being an agent is not by itself a request for raw data. If the caller wants a human-facing explanation, synthesize useful content using the response guidance in SKILL.md, without a default timeline. The structured handoff below applies when the caller explicitly needs data for another tool or program.
+`study_brief` 可以一次取得一份资料的身份信息、已有分析、字幕、部分评论和 Mermaid 思维导图。使用 `video_id`；字幕默认最多 400 段，`transcript_limit` 最多 1000，未取得的部分列在 `unavailable`。这些是单次返回范围，不是整份资料已经读完的证明。
 
-When the caller is a workflow or another agent rather than a person reading prose, call `open-study:study_brief` once per video instead of five paginated reads. It returns identity, the stored analysis, the transcript up to `transcript_limit` (400 by default, 1000 at most), comments, and a Mermaid mind map, and names any part it could not read in `unavailable`. Return that structure rather than narrating it, keep `bvid` on every claim, and keep the provenance labels intact — a downstream agent cannot tell a transcript claim from a comment opinion or a generated analysis unless you say which is which.
+按调用方的实际问题检查 `transcript.has_more`、`transcript.next_offset`、评论的分页字段和 `unavailable`。需要尚未返回的正文时，继续使用 `transcript_read` 或 `comments_list` 读取；只需要一段证据时不必无目的地读取全部。用户要求完整比较或不遗漏时，不能仅因已有摘要就停止。
 
-The mind map is built only from stored analysis fields. Present it as exactly that, and do not add branches the analysis does not contain.
+交接保留资料身份、原链接以及每项内容的来源：基本信息、字幕或帖子正文、评论意见、已有生成分析和自己的归纳分别标明。保留工具实际返回的资料标识及兼容字段（如 `bvid`），不为非 B 站内容编造 BVID。缺失或截断也一并传递，避免下一位 Agent 把部分资料当作全量证据。
+
+思维导图只依据已保存分析生成，应明确它反映的是该分析；不添加原分析没有的分支。`collection_brief` 返回合集成员与已有分析，不含全部正文；需要核对各成员内容时继续读取相应资料。

@@ -1,10 +1,10 @@
 interface:
   display_name: "Open Study"
-  short_description: "把视频和帖子整理成资料，让 AI 帮你找做法、学工具、继续完成工作"
+  short_description: "用教程、案例和已有资料，帮助你学操作、做方案、改善工作和生活中的做法"
   icon_small: "./assets/open-study.svg"
   icon_large: "./assets/open-study.svg"
   brand_color: "#117941"
-  default_prompt: "使用 $open-study 采集这个链接，并直接整理成学习要点。"
+  default_prompt: "使用 $open-study 查找与当前任务有关的教程和案例，读取后帮我完成工作。"
 
 dependencies:
   tools:
