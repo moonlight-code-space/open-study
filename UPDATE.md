@@ -5,43 +5,40 @@ Open Study 的 Skill 和 MCP 连接配置跟随 GitHub 的 `plugin-stable` 分�
 稳定更新源是 `moonlight-code-space/open-study` 的
 `plugin-stable` 分支。更新完成后，先保存手头的工作，完全退出并重新打开安装插件的那个软件，再新开一个对话；命令行用户退出当前会话后重新启动。随后实际调用一次确认能用，不要把文件更新成功当作已经加载成功。
 
-## macOS / Linux
+## Codex：核对来源后更新
 
-已经从 GitHub 安装后，在源码仓库根目录运行：
+以下命令适用于已从官方 GitHub 仓库安装、并且你准备更新的 Codex 插件；macOS、Linux 和 Windows 使用相同命令。
 
-```sh
-sh ./scripts/Update-OpenStudy-Plugin.sh
+先查看已配置的来源：
+
+```text
+codex plugin marketplace list --json
 ```
 
-可选地传入已发布仓库做额外来源核对：
+只检查名称为 `open-study` 的条目：它应当只有一项，来源类型是 Git，仓库是 `moonlight-code-space/open-study` 或等价的官方 HTTPS 地址。若结果提供 `refName`、`ref` 或 `gitRef`，应为 `plugin-stable`。来源是本地 ZIP、其他仓库、其他 ref、重复条目或无法核实时，保留配置，先处理来源问题。
 
-```sh
-sh ./scripts/Update-OpenStudy-Plugin.sh https://github.com/moonlight-code-space/open-study
+核对后依次运行；第一条失败时先处理错误，不继续安装：
+
+```text
+codex plugin marketplace upgrade open-study --json
+codex plugin add open-study@open-study --json
 ```
 
-如果你打开的是下载包内的 `UPDATE.md`，脚本就在同一目录：
+这会刷新已配置的 Git marketplace，再安装其中的插件，不重新添加或删除来源，也不更改工具审批和账号授权设置。查看安装结果里的插件 ID 与版本；本轮版本为 `1.1.2`，后续以正式发布页为准。更新后按开头说明重新加载客户端，实际查询一次已有资料即可，不必反复检查状态。
 
-```sh
-sh ./update.sh
-```
+### 更新脚本提示无法确认 Git ref
 
-## Windows
+下载包里的 `update.sh`／`update.ps1` 另做了来源校验。部分 Codex CLI 的 marketplace 结果只提供 Git 仓库来源，没有 ref 字段，旧更新器会因此拒绝继续。这种报错本身不表示插件损坏或安装失败。
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\Update-OpenStudy-Plugin.ps1
-```
+如果确实只是缺少 ref 元数据，先按上面的步骤确认唯一的官方 Git 来源，再使用上述 `marketplace upgrade` 和 `plugin add` 命令更新原来源。若明确显示另一个 ref 或无法确认来源，则不能套用这个办法。不要伪造 ref 字段、删除 marketplace，或改审批设置来让脚本通过。
 
-如果你打开的是下载包内的 `UPDATE.md`：
+更新插件不等于重新授权账号。出现登录要求时，按客户端正常的 Open Study 登录流程完成；已经连上的账号不需要为了更新而重复登录。若刷新成功但安装失败，记录具体错误后处理，不把 marketplace 刷新成功当作插件已更新。
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\update.ps1
-```
+## Claude 与下载包
 
-脚本只执行两步：先刷新已配置的 Git marketplace，再从该快照重新安装 `open-study`。它会从 Codex 已保存的 marketplace 读取仓库来源，并要求该来源仍固定在 `plugin-stable`；如果检测到同名 ZIP marketplace、另一个 GitHub 仓库、其他 Git ref 或重复 marketplace，会停止，不会替换或删除原配置。
+Claude Code 的官方 GitHub 安装先运行 `claude plugin marketplace update open-study`，再运行 `claude plugin update open-study@open-study`。Claude Code 桌面端按网站「快速开始」重新下载并导入对应包；普通 Claude 连接器页面不等于插件导入入口。
 
-这个流程只更新轻量的 Skill 与 MCP 连接元数据，不下载云端后端，也不重启数据库。网络正常时通常只需数秒；实际时间取决于 GitHub 和 Codex marketplace 刷新速度。远程 MCP 功能由 Open Study 服务端单独发布，客户端不需要为服务端更新重装插件。
-
-刷新失败时，原来已安装的插件和 marketplace 都不变。若刷新成功但重新安装失败，原来已安装的插件仍保留，但本地 marketplace 快照可能已经前移；修复错误后重跑更新。成功后请新建一个 Codex 任务，让新的 Skill 和 MCP 工具进入任务上下文。
+从本地 ZIP 安装的 Codex 插件应保留原解压目录，按下载包说明更新；不要把它当成 Git marketplace 执行上面的命令。公共 Git 仓库不包含 `scripts/Update-OpenStudy-Plugin.sh`；包内脚本仅在完整解压目录使用。
 
 ## 从 ZIP 安装迁移到 GitHub
 

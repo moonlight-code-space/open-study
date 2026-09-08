@@ -60,7 +60,7 @@ Open Study 提供 **Skill 和 MCP**。Skill 帮助 AI 判断什么时候使用�
 
 提供 Codex、Claude 原生包，以及 Agent Plugins 标准包、Gemini CLI、Antigravity 适配包和安装材料合集。请按所用软件选择，具体安装与更新方法见快速开始页面。
 
-安装 Skill 后，AI 在遇到适合参考教程或案例的问题时，可以主动提出建议；是否提醒取决于所用软件和当前对话。你也可以直接说：“找几个视频参考一下。”
+安装 Skill 后，AI 会在设计、规划、学习操作等适合参考的任务中考虑教程和案例。还没要求参考时，它可以先说明资料能帮上什么忙；你已经要求研究或授权主动参考时，就应直接查找、读取，并把结果用于原任务，不反复询问。实际触发仍取决于软件、模型和当前对话；简单修改或明确不需要研究时不打扰。
 
 新链接由 AI 自己的联网搜索找到，Open Study 负责读取和整理内容。
 
@@ -158,7 +158,7 @@ To get started:
 
 Downloads include native Codex and Claude packages, an Agent Plugins standard package, Gemini CLI and Antigravity adapters, and a bundle of installation materials. Choose the option for your app. Installation and update instructions are available on the Quick start page.
 
-With the Skill installed, your AI may suggest looking at tutorials or examples when they would help. Whether it makes that suggestion depends on the app and the conversation. You can also ask directly: “Find a few videos to use as references.”
+With the Skill installed, your AI considers tutorials and examples for tasks such as design, planning, and learning a practical skill. It may first explain how references would help. Once you have requested research or authorized it to consult references, it should find and read them, then use the findings in your original task without asking again. Actual use depends on the app, model, and conversation. Simple edits and requests to skip research do not need an extra suggestion.
 
 Your AI’s own web search finds new links; Open Study reads and organizes their content.
 
