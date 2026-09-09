@@ -1,6 +1,6 @@
 interface:
   display_name: "Open Study"
-  short_description: "用教程、案例和已有资料，帮助你学操作、做方案、改善工作和生活中的做法"
+  short_description: "查阅教程、案例与已有资料，帮助探索做法、比较方案、改善结果"
   icon_small: "./assets/open-study.svg"
   icon_large: "./assets/open-study.svg"
   brand_color: "#117941"
