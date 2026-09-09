@@ -2,29 +2,33 @@
 
 插件包含 Open Study Skill 和远程 MCP 连接配置，不安装第二套本地后端，也不保存上游服务密钥。
 
-## 1.1.2：选择安装包
+## 按正在使用的软件安装
 
-支持 Agent Plugins v1 的软件使用 `open-study-standard-v1.1.2.zip`；Codex 与 Claude Code CLI 使用完整的 `open-study-plugin-v1.1.2.zip`；Claude Code 桌面端按网站指引导入 `open-study-claude-v1.1.2.plugin`。Gemini CLI 与 Antigravity 各有对应兼容包。
+在网站「连接 AI」选择正在使用的软件，复制对应安装提示词。Codex CLI、Codex 桌面端与 Claude Code CLI 优先使用官方 GitHub 更新源，日后仍从同一来源更新。下载文件是备用方式，不需要把所有包都装上。
 
-不确定怎么选时，下载 `open-study-universal-v1.1.2.zip`，在 `clients/` 找当前软件的说明，或者复制网站「快速开始」中该软件的提示词。合集不是一个能直接被所有软件导入的插件；只安装其中适合自己的那份。标准包和兼容包使用同一份 Skill、同一个远程服务。后续版本以[网站快速开始](https://study.faroapi.cn/#ai)和[正式发布页](https://github.com/moonlight-code-space/open-study/releases/latest)为准。
+需要离线安装时，在网站选择当前版本的文件：支持 Agent Plugins v1 的软件用标准包；Codex 与 Claude Code CLI 用完整发行包；Claude Code 桌面端用 `.plugin` 文件。Gemini CLI 与 Antigravity 使用各自兼容包。
+
+「全部安装材料」是合集，在 `clients/` 找当前软件的说明，只安装对应的那份；合集不能作为一个插件整体导入。标准包和兼容包使用同一份 Skill、同一个远程服务。文件名中的版本以网站实际下载为准。
 
 只有 MCP 工具连接，没有加载 Skill，不能视为完整安装。客户端版本不支持时，应明确说明缺哪一项。
 
 安装完成后，先保存手头的工作，完全退出并重新打开安装插件的那个软件，再新开一个对话。如果用的是命令行，就退出当前会话后重新启动。需要登录时按提示授权；新对话里实际调用成功后，才算确认能用。
 
 正式 MCP 固定连接 `https://study.faroapi.cn/mcp`。插件安装成功只说明 Skill
-和连接声明已经进入客户端；账号授权是单独一步，按下方客户端说明完成。稳定更新源是
+和连接声明已经进入 Codex；安装期间或首次使用时仍要通过网站 OAuth 登录。稳定更新源是
 `moonlight-code-space/open-study` 的 `plugin-stable` 分支。
 
-## 从 ZIP 安装（当前推荐）
+## 先检查是否已经安装
 
-从网站「快速开始」下载的 ZIP 安装即用，安装不依赖 GitHub；使用仍需联网到远程 MCP 与授权。解压完整安装包，然后运行下方 ZIP 安装命令。想跟着仓库自动更新，用后面的 GitHub 方式。
+先查看当前软件的插件清单和安装来源。已经从 GitHub 安装的，按更新说明刷新原来源；不要添加同名本地目录覆盖它。已有 ZIP 来源或其他仓库时，先选择继续按原方式更新还是明确迁移，不自动切换。
+
+GitHub 和网站文件可能暂时不是同一版本。应报告实际安装版本和目标版本的差异，保留更新来源，不为了匹配版本改成本地目录或降级。只有选择离线安装时，才使用下方 ZIP 命令。
 
 ## Claude Code
 
 插件包同时带有 Claude Code 的清单（`plugins/open-study/.claude-plugin/plugin.json`，仓库根另有 `.claude-plugin/marketplace.json`），可以当作一个 Claude Code marketplace 直接安装。
 
-账号级安装（对本机所有项目生效）：
+首次账号级安装（对本机所有项目生效；已经安装的先查看来源并走更新）：
 
 ```bash
 claude plugin marketplace add https://github.com/moonlight-code-space/open-study.git
@@ -33,35 +37,62 @@ claude plugin install open-study@open-study --scope user
 
 `claude plugin marketplace add` 不支持指定分支，Claude 走的是仓库默认分支 `main`；`main` 与 `plugin-stable` 两个分支的插件内容相同。
 
-在 Claude Code 会话里也可以用 `/plugin marketplace add …` 与 `/plugin install open-study@open-study`，后者会弹出作用域选择，选「User」。装完之后要单独登录一次：安装时不问授权，第一次调用也不弹窗，服务会显示 `! Needs authentication`。在能打字的终端里跑 `claude mcp login "plugin:open-study:open-study"`（服务名的 `plugin:` 前缀和引号都不能省），或在会话里用 `/mcp` 选 open-study 登录；非交互环境会报 `stdin isn't a terminal`。浏览器会打开网站的授权页，登录后点「允许连接」；密码不经过插件。
+在 Claude Code 会话里也可以用 `/plugin marketplace add …` 与 `/plugin install open-study@open-study`，后者会弹出作用域选择，选「User」。安装后若显示 `Needs authentication`，或调用时提示未登录，可在会话里用 `/mcp` 选 open-study 登录，也可在交互终端运行 `claude mcp login "plugin:open-study:open-study"`（按实际插件服务名填写）。Agent 能打开交互终端时可协助启动；浏览器里的账户登录和「允许连接」由用户完成。没有交互终端时，再把命令交给用户运行。浏览器会打开网站的授权页，登录后点「允许连接」；密码不经过插件。
 
 更新：先 `claude plugin marketplace update open-study`，再 `claude plugin update open-study@open-study`。换到只对当前项目生效，用 `--scope project`（写进仓库的 `.claude/settings.json`，会随代码共享）或 `--scope local`（只在本机这个目录）。
 
 ## Claude Code 桌面端
 
-在网站「快速开始」选择 **Claude Code 桌面端**，下载对应的 `.plugin` 包，按页面步骤导入，并完成 Open Study 账号授权。更新时重新下载并导入新版本；不要把普通 Claude 连接器页面当成插件导入入口。
+下载当前版本的 `open-study-claude-*.plugin`，在 Claude Code 桌面端的插件页导入。不要上传 Codex 的 marketplace ZIP，也不要把普通 Claude 聊天连接器当成桌面插件。升级后重开软件、新建对话，再确认插件版本与授权；尚未实际调用时，只能说文件已安装。
 
 ## 其他 Agent（Cursor、Cline 等）
 
-包里的安装脚本面向 Codex。其他客户端应按网站「快速开始」和对应包内说明，加载完整 Skill 及其附属文件，再连接远程 MCP `https://study.faroapi.cn/mcp` 并完成账号授权。客户端只接通 MCP、尚未加载 Skill 时，应明确说明“工具已连接，Skill 未加载”，不能称为完整安装。不要把永久粘贴系统提示词当成已验证的插件安装方式；没有对应说明的客户端先确认其实际支持能力。
+包里的安装脚本面向 Codex。其他软件先按 `clients/` 对应说明确认当前版本支持的插件、Skill 与 MCP 安装方式；保留完整 Skill 目录及其附属文件。只有工具连接而没有 Skill 的软件，应说明缺项，不把整篇 Skill 强行塞进每条对话。远程服务使用 `https://study.faroapi.cn/mcp`，需要登录时按当前软件的授权流程完成。
 
-## Codex：从 GitHub 安装
+## Codex：从 GitHub 安装（推荐）
 
-在已安装 Codex CLI 的 macOS、Linux 或 Windows 终端运行：
+安装器拒绝其他 Git ref、同名 ZIP 来源和不同 GitHub 仓库，不会静默改写
+来源。在源码仓库根目录使用 `scripts/` 下的安装器；如果手边只有已解压的
+离线包，也可以使用包根目录的安装器连接 GitHub。
 
-```text
-codex plugin marketplace add moonlight-code-space/open-study --ref plugin-stable --json
-codex plugin add open-study@open-study --json
+### macOS / Linux
+
+```sh
+sh ./scripts/Install-OpenStudy-Plugin.sh moonlight-code-space/open-study
 ```
 
-如果已有同名本地 ZIP 来源、其他仓库或来源冲突，先保留当前配置，按 [更新说明](UPDATE.md) 核对；不要删除来源来绕过报错。下载包中的 `install.sh` 和 `install.ps1` 也可用于安装，公共 Git 仓库本身不包含这些脚本。
+也可以传完整地址：
 
-安装成功后，新建一个 Codex 任务，再让 Agent 使用 Open Study。若尚未授权或新对话提示登录，再在能打字的终端里运行 `codex mcp login open-study`；已有授权且能读取资料时无需重复登录。
-它会打印一个授权网址并在本机等回调，浏览器里登录 Open Study 并点「允许连接」之后，命令行显示登录成功。插件文件不包含用户 Token、TikOmni 密钥或云端数据库；不要把这些凭据写进聊天、`.mcp.json` 或 Skill。
+```sh
+sh ./scripts/Install-OpenStudy-Plugin.sh https://github.com/moonlight-code-space/open-study
+```
 
-下载包安装器会先检查同名 marketplace。如果已有另一个 GitHub 来源、不是 `plugin-stable` 的 Git ref 或旧 ZIP 本地来源，它会停止并保留原配置。若安装器刚添加了一个新 marketplace、但随后的插件安装失败，它会只回滚本次新增的 marketplace；既有 marketplace 和既有插件不会被自动删除。
+在解压包根目录运行：
 
-## ZIP 安装命令
+```sh
+sh ./install.sh moonlight-code-space/open-study
+```
+
+### Windows
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\Install-OpenStudy-Plugin.ps1 moonlight-code-space/open-study
+```
+
+在解压包根目录运行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1 moonlight-code-space/open-study
+```
+
+安装成功后，新建一个 Codex 任务，再让 Agent 使用 Open Study。需要授权时，Codex 会进入正常的连接和登录流程。
+
+Codex 安装后若提示未登录或尚未完成授权，可在交互终端运行 `codex mcp login open-study`。不同版本是否自动弹出授权可能不同，以实际提示为准。
+Agent 能打开交互终端时，可协助启动这条登录命令；浏览器里的账户登录和「允许连接」由用户完成。没有交互终端时，再把命令交给用户运行。它会打印一个授权网址并在本机等回调，浏览器里登录 Open Study 并点「允许连接」之后，命令行显示登录成功。插件文件不包含用户 Token、TikOmni 密钥或云端数据库；不要把这些凭据写进聊天、`.mcp.json` 或 Skill。
+
+安装器会先检查同名 marketplace。如果已有另一个 GitHub 来源、不是 `plugin-stable` 的 Git ref 或旧 ZIP 本地来源，它会停止并保留原配置，不会静默覆盖。若安装器刚添加了一个新 marketplace、但随后的插件安装失败，它会只回滚本次新增的 marketplace；既有 marketplace 和既有插件不会被自动删除。
+
+## ZIP 安装命令（离线备用）
 
 解压完整安装包，然后运行：
 
@@ -79,18 +110,24 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Offline
 
 ZIP 是本地 marketplace，安装期间和安装后都要保留解压目录。它不会自动从 GitHub 更新；恢复联网并且正式仓库已发布后，再按更新说明明确迁移到 Git marketplace。
 
-## 更新
+## 等价的 Codex 命令
 
-已从 GitHub 安装时，按 [UPDATE.md](UPDATE.md) 核对原来源，再刷新 marketplace 并安装新版本。该页也说明旧更新器无法读取 Git ref 元数据时的处理方式。离线包更新与 GitHub 更新分开处理。
+GitHub 安装器使用以下命令，并额外检查来源冲突和失败状态：
+
+```text
+codex plugin marketplace add moonlight-code-space/open-study --ref plugin-stable --json
+codex plugin add open-study@open-study --json
+```
+
+完成一次 GitHub 安装后，日常更新不必再输入仓库地址：运行 `Update-OpenStudy-Plugin` 脚本即可。离线包内也包含 `UPDATE.md`。
 
 ## 插件里有什么
 
-- `SKILL.md`：帮助 Agent 在设计、规划、学习操作和其他实践任务中考虑教程、案例及已有资料。已要求研究或授权主动参考时，直接查找、读取并用于原任务；还没授权时，可先说明参考的用途。实际触发取决于客户端、模型和对话，不保证每次都会主动建议。
-- 对用户要求读取或整理的受支持公开链接，Agent 按请求范围处理，等资料返回后再回答；链接只是示例或用户明确不需要研究时不提交。新链接由 Agent 自己的联网搜索发现，Open Study 负责读取和整理，普通网页由浏览器或网页工具读取。
+- `SKILL.md`：指导 Agent 在学习操作、创作设计、制定方案、比较方法等任务中识别有用的教程和案例，按已有研究需求读取资料，并把结果用回原任务。无需查资料的小改动直接完成。安装了 Skill 不代表每次都能稳定主动提醒，实际表现需用新对话验证。
 - `.mcp.json`：只声明 `https://study.faroapi.cn/mcp`。登录、账号隔离、计费和任务执行都由远程服务处理。
 - marketplace 元数据：让 Codex 从 GitHub 稳定分支安装或刷新插件。
 
-Agent 会区分资料原话和自己的建议，保留可核对的来源。已经授权的范围不逐条重复询问；新增费用、扩大范围或需要账号授权时，仍按当前请求和客户端权限处理。正常使用不需要反复查询连接状态，出现连接错误时再排查。
+旧版本地 Skill 的证据回链和来源区分逻辑已经复用；云端版本把采集前检查收进后台流程，并取消采集前的额外确认轮次。本机后端发现、CLI 和本地数据库部分不会带入云端插件。
 
 ## 从旧版 `bilistudy` Skill / MCP 迁移
 

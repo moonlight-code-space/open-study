@@ -45,6 +45,32 @@ function Get-CanonicalGitSource {
     return "$Owner/$Repo".ToLowerInvariant()
 }
 
+function Get-MarketplaceRef {
+    param($Record, [string]$ConfiguredSource)
+    foreach ($Container in @($Record.marketplaceSource, $Record)) {
+        foreach ($Property in @("refName", "ref", "gitRef")) {
+            $Candidate = [string]$Container.$Property
+            if (-not [string]::IsNullOrWhiteSpace($Candidate)) { return $Candidate }
+        }
+    }
+    if ([string]$Record.marketplaceSource.sourceType -notin @("git", "github") -or [string]::IsNullOrWhiteSpace([string]$Record.root)) { return "" }
+    $SnapshotRoot = [string]$Record.root
+    $Bookkeeping = Join-Path $SnapshotRoot ".codex-marketplace-install.json"
+    $Expected = Get-CanonicalGitSource $ConfiguredSource
+    if (Test-Path -LiteralPath $Bookkeeping -PathType Leaf) {
+        try { $Snapshot = Get-Content -LiteralPath $Bookkeeping -Raw | ConvertFrom-Json } catch { return "" }
+        if ($Snapshot.source_type -in @("git", "github") -and -not [string]::IsNullOrWhiteSpace([string]$Snapshot.source)) {
+            if ((Get-CanonicalGitSource ([string]$Snapshot.source)) -eq $Expected) { return [string]$Snapshot.ref_name }
+        }
+    } elseif ((Test-Path -LiteralPath (Join-Path $SnapshotRoot ".git")) -and (Get-Command git -ErrorAction SilentlyContinue)) {
+        $Origin = (& git -C $SnapshotRoot config --local --get remote.origin.url 2>$null | Out-String).Trim()
+        if ($LASTEXITCODE -ne 0) { return "" }
+        $Branch = (& git -C $SnapshotRoot symbolic-ref --quiet --short HEAD 2>$null | Out-String).Trim()
+        if ($LASTEXITCODE -eq 0 -and (Get-CanonicalGitSource $Origin) -eq $Expected) { return $Branch }
+    }
+    return ""
+}
+
 function Invoke-CodexJson {
     param(
         [string[]]$Arguments,
@@ -83,19 +109,7 @@ function Get-MarketplaceState {
             break
         }
     }
-    $ConfiguredRef = ""
-    foreach ($Container in @($Record.marketplaceSource, $Record)) {
-        foreach ($Property in @("refName", "ref", "gitRef")) {
-            $Candidate = [string]$Container.$Property
-            if (-not [string]::IsNullOrWhiteSpace($Candidate)) {
-                $ConfiguredRef = $Candidate
-                break
-            }
-        }
-        if (-not [string]::IsNullOrWhiteSpace($ConfiguredRef)) {
-            break
-        }
-    }
+    $ConfiguredRef = Get-MarketplaceRef $Record $ConfiguredSource
 
     if ($SourceType -eq "local") {
         if ([string]::IsNullOrWhiteSpace($ConfiguredSource)) {

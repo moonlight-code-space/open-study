@@ -106,6 +106,44 @@ ref_name = next(
     ),
     "",
 )
+# Codex releases expose the tracked ref in different places. Newer list output
+# may omit it; inspect only the CLI-owned snapshot named by that list, never
+# user config. Git checkouts and snapshot bookkeeping are both supported.
+if source_type in {"git", "github"} and not ref_name:
+    from pathlib import Path
+    import subprocess
+
+    def normalized_source(value):
+        value = str(value).rstrip("/").lower()
+        if value.endswith(".git"):
+            value = value[:-4]
+        prefix = "https://github.com/"
+        return value[len(prefix):] if value.startswith(prefix) else value
+
+    root_value = item.get("root")
+    root = Path(root_value) if isinstance(root_value, str) and root_value else None
+    bookkeeping = root / ".codex-marketplace-install.json" if root and root.is_absolute() else None
+    if bookkeeping and bookkeeping.is_file():
+        try:
+            snapshot = json.loads(bookkeeping.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            raise SystemExit("invalid Codex marketplace installation record")
+        if (isinstance(snapshot, dict)
+                and snapshot.get("source_type") in {"git", "github"}
+                and normalized_source(snapshot.get("source", "")) == normalized_source(source)):
+            ref_name = str(snapshot.get("ref_name") or "")
+    elif root and root.is_absolute() and root.is_dir() and (root / ".git").exists():
+        try:
+            origin = subprocess.run(["git", "-C", str(root), "config", "--local", "--get", "remote.origin.url"],
+                                    capture_output=True, text=True, check=True).stdout.strip()
+            branch = subprocess.run(["git", "-C", str(root), "symbolic-ref", "--quiet", "--short", "HEAD"],
+                                    capture_output=True, text=True, check=True).stdout.strip()
+        except (OSError, subprocess.CalledProcessError):
+            pass
+        else:
+            if normalized_source(origin) == normalized_source(source):
+                ref_name = branch
+
 if source_type == "local":
     print("local")
     print(source or str(item.get("root", "")))
