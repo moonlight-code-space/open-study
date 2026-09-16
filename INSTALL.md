@@ -45,7 +45,45 @@ claude plugin install open-study@open-study --scope user
 
 下载当前版本的 `open-study-claude-*.plugin`，在 Claude Code 桌面端的插件页导入。不要上传 Codex 的 marketplace ZIP，也不要把普通 Claude 聊天连接器当成桌面插件。升级后重开软件、新建对话，再确认插件版本与授权；尚未实际调用时，只能说文件已安装。
 
-## 其他 Agent（Cursor、Cline 等）
+## Cline
+
+已核对正式版 **Cline IDE v4.1.17** 包含 MCP 账号授权；无需为 Open Study 手填 Token。Cline 是在代码编辑器里帮助读写代码、运行命令和调用外部工具的 AI 助手。CLI 和 IDE 的配置入口不同，请在实际使用的那一端验证。
+
+1. 从安装材料的 `standard/skills/open-study` 复制完整目录到 `~/.cline/skills/open-study`，或项目的 `.cline/skills/open-study`。在 Cline 的 Skills 菜单确认它已启用。
+2. 打开 **MCP Servers → Remote Servers**，名称填 `open-study`，地址填 `https://study.faroapi.cn/mcp`，类型选 **Streamable HTTP**，点击 **Add Server**。不要填写 Authorization 请求头。
+3. 在该服务卡片点 **Authenticate**，浏览器里登录 Open Study、点「允许连接」，再回到 Cline。
+4. 新开对话，分别确认 Skill 可见、Open Study 工具能调用。先读取资料库，再发送一个链接做实际读取验证。
+
+如果手动编辑 MCP 配置，只把下列条目合并进去，保留其他服务：
+
+```json
+{
+  "mcpServers": {
+    "open-study": {
+      "type": "streamableHttp",
+      "url": "https://study.faroapi.cn/mcp",
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+这里的类型名是 Cline 自己的 `streamableHttp`，不能照搬标准包的 `streamable-http`。旧版没有授权按钮时先升级 Cline，不要反复重装 Open Study。核对来源：[Cline v4.1.17 MCP 授权实现](https://github.com/cline/cline/blob/v4.1.17/apps/vscode/src/services/mcp/McpOAuthManager.ts)、[MCP 设置](https://docs.cline.bot/mcp/mcp-overview)、[Skills](https://docs.cline.bot/customization/skills)。
+
+## Cherry Studio
+
+已核对 **Cherry Studio v2.0.14** 包含 MCP 账号授权和 Agent Skills。
+
+1. 打开 **设置 → MCP 服务器 → 添加服务器**，名称填 `open-study`，类型选 **Streamable HTTP**，地址填 `https://study.faroapi.cn/mcp`，请求头留空。
+2. 保存并启用服务器，在浏览器里完成 Open Study 登录与「允许连接」。无需创建开发者密钥。
+3. 在实际使用的助手或 Agent 中启用 Open Study；仅在设置中添加服务器，不代表当前对话已经启用它。
+4. 要加载 Skill，在支持 Skills 的 Agent 模式中打开技能管理，导入安装材料里的 `standard/skills/open-study` 完整目录，并为当前 Agent 启用。普通聊天只连上 MCP，不能当作 Skill 已加载。
+5. 新开对话，验证实际工具调用和资料读取。旧版缺少对应入口时先升级软件。
+
+核对来源：[Cherry Studio v2.0.14](https://github.com/CherryHQ/cherry-studio/releases/tag/v2.0.14)、[MCP 授权实现](https://github.com/CherryHQ/cherry-studio/blob/v2.0.14/src/main/ai/mcp/oauth/provider.ts)、[技能导入与启用](https://github.com/CherryHQ/cherry-studio/blob/v2.0.14/src/main/ai/skills/SkillService.ts)。上述来源证明版本具有相关功能，不代替你当前客户端的一次真实连接验收。
+
+## 其他 Agent（Cursor 等）
 
 包里的安装脚本面向 Codex。其他软件先按 `clients/` 对应说明确认当前版本支持的插件、Skill 与 MCP 安装方式；保留完整 Skill 目录及其附属文件。只有工具连接而没有 Skill 的软件，应说明缺项，不把整篇 Skill 强行塞进每条对话。远程服务使用 `https://study.faroapi.cn/mcp`，需要登录时按当前软件的授权流程完成。
 
