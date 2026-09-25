@@ -52,13 +52,13 @@ Open Study 提供 **Skill 和 MCP**。Skill 帮助 AI 判断什么时候使用�
 
 安装方法：
 
-1. 打开网站的[快速开始](https://study.faroapi.cn/#ai)。
+1. 在网站[免费注册](https://study.faroapi.cn/#register)（已有账号直接登录），打开左侧「快速开始」。
 2. 选择你使用的 AI 软件。
 3. 复制对应的安装提示词，发给 AI 按说明安装。
 4. 按提示重新打开软件，并登录 Open Study 完成授权。
-5. 新建对话，发一条链接试试。
+5. 新建对话，先让 AI 查一次资料库确认连上，再发一条链接试试。
 
-提供 Codex、Claude 原生包，以及 Agent Plugins 标准包、Gemini CLI、Antigravity 适配包和安装材料合集。请按所用软件选择，具体安装与更新方法见快速开始页面。
+提供 Codex、Claude 原生包，以及 Agent Plugins 标准包、Gemini CLI、Antigravity 适配包和安装材料合集。请按所用软件选择，每个软件的安装、授权与更新步骤见[连接指引](https://docs.study.faroapi.cn/connect/overview)。
 
 安装 Skill 后，AI 会在设计、规划、学习操作等适合参考的任务中考虑教程和案例。还没要求参考时，它可以先说明资料能帮上什么忙；你已经要求研究或授权主动参考时，就应直接查找、读取，并把结果用于原任务，不反复询问。实际触发仍取决于软件、模型和当前对话；简单修改或明确不需要研究时不打扰。
 
@@ -150,11 +150,11 @@ Open Study provides a **Skill and an MCP connection**. The Skill guides the AI o
 
 To get started:
 
-1. Open [Quick start](https://study.faroapi.cn/#ai) on the website.
+1. [Sign up](https://study.faroapi.cn/#register) on the website (or sign in), then open Quick start in the sidebar.
 2. Choose the AI app you use.
 3. Copy its installation prompt and send it to your AI to follow.
 4. Reopen the app when prompted, then sign in to Open Study to authorize the connection.
-5. Start a new conversation and try sending a link.
+5. Start a new conversation, ask your AI to check your library once, then try sending a link.
 
 Downloads include native Codex and Claude packages, an Agent Plugins standard package, Gemini CLI and Antigravity adapters, and a bundle of installation materials. Choose the option for your app. Installation and update instructions are available on the Quick start page.
 
